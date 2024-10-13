@@ -3,7 +3,6 @@ package com.mck.backend.service;
 import com.mck.backend.domain.UserInfo;
 import com.mck.backend.model.UserInfoDetails;
 import com.mck.backend.repos.UserInfoRepository;
-import jakarta.persistence.EntityExistsException;
 import java.util.Optional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

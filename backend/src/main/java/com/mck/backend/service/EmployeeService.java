@@ -9,10 +9,8 @@ import com.mck.backend.model.EmployeeDTO;
 import com.mck.backend.repos.DepartmentRepository;
 import com.mck.backend.repos.EmployeeRepository;
 import com.mck.backend.util.NotFoundException;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service

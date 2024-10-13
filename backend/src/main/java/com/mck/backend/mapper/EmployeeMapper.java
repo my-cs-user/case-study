@@ -9,12 +9,9 @@ import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
-
-	EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
 
 	@Mapping(source = "department", target = "department", qualifiedByName = "departmentToId")
 	EmployeeDTO toDTO(Employee employee);
