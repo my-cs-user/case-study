@@ -13,6 +13,7 @@ function CoursesStudents() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [pageSize, setPageSize] = useState(20); // Default page size
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -30,10 +31,10 @@ function CoursesStudents() {
     }
   };
 
-  const fetchStudents = async (courseId, page = 0, search = '') => {
+  const fetchStudents = async (courseId, page = 0, size = pageSize, search = '') => {
     try {
       const response = await api.get(`/api/students/courses/${courseId}`, {
-        params: { page, size: 10, searchText: search }
+        params: { page, size, searchText: search }
       });
       setStudents(response.data.content);
       setTotalRecords(response.data.totalElements);
@@ -89,14 +90,23 @@ function CoursesStudents() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    fetchStudents(selectedCourse.id, pageNumber, searchText);
+    fetchStudents(selectedCourse.id, pageNumber, pageSize);
+  };
+
+  const handlePageSizeChange = (event) => {
+    const size = parseInt(event.target.value, 10);
+    setPageSize(size);
+    setCurrentPage(0); // Reset to the first page
+    if (selectedCourse) {
+      fetchStudents(selectedCourse.id, 0, size); // Fetch with new size
+    }
   };
 
   const handleSearchChange = (event) => {
     const { value } = event.target;
     setSearchText(value);
     if (selectedCourse) {
-      fetchStudents(selectedCourse.id, 0, value); // Reset to the first page on search
+      fetchStudents(selectedCourse.id, 0, pageSize, value); // Reset to the first page on search
     }
   };
 
@@ -201,7 +211,7 @@ function CoursesStudents() {
 
               {/* Pagination */}
               <Pagination>
-                {Array.from({ length: Math.ceil(totalRecords / 10) }).map((_, index) => (
+                {Array.from({ length: Math.ceil(totalRecords / pageSize) }).map((_, index) => (
                     <Pagination.Item
                         key={index}
                         active={index === currentPage}
@@ -211,6 +221,16 @@ function CoursesStudents() {
                     </Pagination.Item>
                 ))}
               </Pagination>
+
+              {/* Page Size Selection Dropdown */}
+              <Form.Group className="mb-3">
+                <Form.Label>Select Records per Page:</Form.Label>
+                <Form.Select value={pageSize} onChange={handlePageSizeChange}>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </Form.Select>
+              </Form.Group>
 
               <p>Total Records: {totalRecords}</p>
             </div>

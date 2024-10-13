@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Pagination, Alert, FormControl, InputGroup } from 'react-bootstrap';
+import {Table, Button, Pagination, Alert, FormControl, InputGroup, Form} from 'react-bootstrap';
 import api from './api';
 import EntityModal from './EntityModal';
 import { employeeFields } from './formFields';
@@ -147,13 +147,17 @@ function DepartmentsEmployees() {
         </div>
 
         {/* Search Bar */}
-        <InputGroup className="mb-3">
-          <FormControl
-              placeholder="Search employees"
-              value={searchText}
-              onChange={handleSearchInputChange}
-          />
-        </InputGroup>
+        {selectedDepartment && (
+            <Form.Group className="mb-3">
+              <Form.Label>Search Employees:</Form.Label>
+              <Form.Control
+                  type="text"
+                  placeholder="Search employees"
+                  value={searchText}
+                  onChange={handleSearchInputChange}
+              />
+            </Form.Group>
+        )}
 
         {selectedDepartment && (
             <Button className="mb-3" variant="primary" onClick={() => setShowCreateModal(true)}>
