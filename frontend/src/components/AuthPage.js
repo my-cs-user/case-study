@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import api from './api'; // Import the axios instance with interceptors
-import './AuthPage.css'; // Assuming you have a CSS file for styling
+import './AuthPage.css';
+import {Alert} from "react-bootstrap"; // Assuming you have a CSS file for styling
 
 const AuthPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loginForm, setLoginForm] = useState({ username: '', password: '' });
     const [registerForm, setRegisterForm] = useState({ username: '', password: '' });
-    const [errorMessage, setErrorMessage] = useState('');
+    const [message, setMessage] = useState(null);
+    const [messageType, setMessageType] = useState('');
 
     useEffect(() => {
         // On mount, check if the user is logged in by calling the hello API
@@ -30,18 +32,18 @@ const AuthPage = () => {
             const response = await api.post('/auth/generateToken', loginForm);
             sessionStorage.setItem('authToken', response.data);
             setIsLoggedIn(true);
-            setErrorMessage('');
+            displayMessage('Login successful!', 'success');
         } catch (error) {
-            setErrorMessage('Login failed. Please check your credentials.');
+            displayMessage('Login failed. Please check your credentials.', 'error');
         }
     };
 
     const handleRegister = async () => {
         try {
             await api.post('/auth/register', registerForm);
-            alert('Registration successful. You can now log in.');
+            displayMessage('Register successful!', 'success');
         } catch (error) {
-            setErrorMessage('Registration failed. Try again.');
+            displayMessage('Registration failed. Try again.', 'error');
         }
     };
 
@@ -60,9 +62,31 @@ const AuthPage = () => {
         setIsLoggedIn(false);
     };
 
+    const displayMessage = (msg, type) => {
+        setMessage(msg);
+        setMessageType(type);
+        if (type === 'error') {
+            console.error(msg);
+        }
+        if (window.messageTimeout) {
+            clearTimeout(window.messageTimeout);
+        }
+        window.messageTimeout = setTimeout(() => {
+            setMessage(null);
+            setMessageType('');
+        }, 5000);
+    };
+
     return (
         <div className="auth-page">
             <div className="auth-container">
+
+                {/* Message Alert */}
+                {message && (
+                    <Alert variant={messageType === 'error' ? 'danger' : 'success'}>
+                        {message}
+                    </Alert>
+                )}
                 {!isLoggedIn ? (
                     <div className="form-wrapper">
                         <div className="login-section">
@@ -109,7 +133,6 @@ const AuthPage = () => {
                     </div>
                 )}
             </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
     );
 };

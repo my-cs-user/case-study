@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Table, Button, Pagination, Alert, FormControl, InputGroup, Form} from 'react-bootstrap';
+import { Table, Button, Pagination, Alert, Form } from 'react-bootstrap';
 import api from './api';
 import EntityModal from './EntityModal';
 import { employeeFields } from './formFields';
@@ -13,9 +13,10 @@ function DepartmentsEmployees() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [pageSize, setPageSize] = useState(20); // Default page size
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
-  const [searchText, setSearchText] = useState(''); // New state for search text
+  const [searchText, setSearchText] = useState(''); // Search text state
 
   useEffect(() => {
     fetchDepartments();
@@ -30,10 +31,10 @@ function DepartmentsEmployees() {
     }
   };
 
-  const fetchEmployees = async (departmentId, page = 0, searchText = '') => {
+  const fetchEmployees = async (departmentId, page = 0, size = pageSize, search = '') => {
     try {
       const response = await api.get(`/api/employees/departments/${departmentId}`, {
-        params: { page, size: 10, searchText: searchText.trim() }
+        params: { page, size, searchText: search }
       });
       setEmployees(response.data.content);
       setTotalRecords(response.data.totalElements);
@@ -44,9 +45,9 @@ function DepartmentsEmployees() {
 
   const handleDepartmentSelect = (event) => {
     const selectedId = event.target.value;
-    const department = departments.find((dept) => dept.id === parseInt(selectedId));
+    const department = departments.find((d) => d.id === parseInt(selectedId));
     setSelectedDepartment(department);
-    fetchEmployees(department.id, 0, searchText); // Fetch employees with search text when department changes
+    fetchEmployees(department.id);
   };
 
   const handleEmployeeSelect = (employee) => {
@@ -89,29 +90,35 @@ function DepartmentsEmployees() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    fetchEmployees(selectedDepartment.id, pageNumber, searchText); // Pass search text when changing pages
+    fetchEmployees(selectedDepartment.id, pageNumber, pageSize, searchText);
   };
 
-  const handleSearchInputChange = (e) => {
-    const value = e.target.value;
+  const handlePageSizeChange = (event) => {
+    const size = parseInt(event.target.value, 10);
+    setPageSize(size);
+    setCurrentPage(0);
+    if (selectedDepartment) {
+      fetchEmployees(selectedDepartment.id, 0, size, searchText);
+    }
+  };
+
+  const handleSearchChange = (event) => {
+    const { value } = event.target;
     setSearchText(value);
     if (selectedDepartment) {
-      fetchEmployees(selectedDepartment.id, 0, value); // Fetch employees with search text when user types
+      fetchEmployees(selectedDepartment.id, 0, pageSize, value);
     }
   };
 
   const displayMessage = (msg, type) => {
     setMessage(msg);
     setMessageType(type);
-
     if (type === 'error') {
       console.error(msg);
     }
-
     if (window.messageTimeout) {
       clearTimeout(window.messageTimeout);
     }
-
     window.messageTimeout = setTimeout(() => {
       setMessage(null);
       setMessageType('');
@@ -122,12 +129,14 @@ function DepartmentsEmployees() {
       <div className="container">
         <h2>Departments and Employees</h2>
 
+        {/* Message Alert */}
         {message && (
             <Alert variant={messageType === 'error' ? 'danger' : 'success'}>
               {message}
             </Alert>
         )}
 
+        {/* Department Selection Dropdown */}
         <div className="mb-3">
           <label>Select Department: </label>
           <select
@@ -154,17 +163,19 @@ function DepartmentsEmployees() {
                   type="text"
                   placeholder="Search employees"
                   value={searchText}
-                  onChange={handleSearchInputChange}
+                  onChange={handleSearchChange}
               />
             </Form.Group>
         )}
 
+        {/* Create Employee Button */}
         {selectedDepartment && (
             <Button className="mb-3" variant="primary" onClick={() => setShowCreateModal(true)}>
               Add New Employee
             </Button>
         )}
 
+        {/* Employee Table */}
         {employees.length > 0 && (
             <div>
               <Table bordered>
@@ -174,30 +185,25 @@ function DepartmentsEmployees() {
                   <th>Surname</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Salary</th>
                   <th>Department</th>
                 </tr>
                 </thead>
                 <tbody>
-                {employees.map((employee) => {
-                  const departmentName =
-                      departments.find((dept) => dept.id === employee.department)?.name || 'N/A';
-                  return (
-                      <tr key={employee.id} onClick={() => handleEmployeeSelect(employee)}>
-                        <td>{employee.name}</td>
-                        <td>{employee.surname}</td>
-                        <td>{employee.email}</td>
-                        <td>{employee.phone}</td>
-                        <td>{employee.salary}</td>
-                        <td>{departmentName}</td>
-                      </tr>
-                  );
-                })}
+                {employees.map((employee) => (
+                    <tr key={employee.id} onClick={() => handleEmployeeSelect(employee)}>
+                      <td>{employee.name}</td>
+                      <td>{employee.surname}</td>
+                      <td>{employee.email}</td>
+                      <td>{employee.phone}</td>
+                      <td>{employee.department}</td>
+                    </tr>
+                ))}
                 </tbody>
               </Table>
 
+              {/* Pagination */}
               <Pagination>
-                {Array.from({ length: Math.ceil(totalRecords / 10) }).map((_, index) => (
+                {Array.from({ length: Math.ceil(totalRecords / pageSize) }).map((_, index) => (
                     <Pagination.Item
                         key={index}
                         active={index === currentPage}
@@ -208,29 +214,41 @@ function DepartmentsEmployees() {
                 ))}
               </Pagination>
 
+              {/* Page Size Selection Dropdown */}
+              <Form.Group className="mb-3">
+                <Form.Label>Select Records per Page:</Form.Label>
+                <Form.Select value={pageSize} onChange={handlePageSizeChange}>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </Form.Select>
+              </Form.Group>
+
               <p>Total Records: {totalRecords}</p>
             </div>
         )}
 
+        {/* Employee Detail Modal */}
         {selectedEmployee && (
             <EntityModal
                 show={showModal}
                 onHide={() => setShowModal(false)}
                 entity={selectedEmployee}
                 fields={employeeFields}
-                masterEntities={departments}
+                masterEntities={departments} // Department information
                 onUpdate={handleUpdateEmployee}
                 onDelete={handleDeleteEmployee}
             />
         )}
 
+        {/* Create Employee Modal */}
         {showCreateModal && (
             <EntityModal
                 show={showCreateModal}
                 onHide={() => setShowCreateModal(false)}
                 entity={{}}
                 fields={employeeFields}
-                masterEntities={departments}
+                masterEntities={departments} // Department information
                 onCreate={handleCreateEmployee}
             />
         )}
