@@ -38,7 +38,7 @@ public class EmployeeService {
 	}
 
 	public void update(Long id, EmployeeDTO employeeDTO) {
-		Employee employee = employeeRepository.findById(id).orElseThrow(NotFoundException::new);
+		employeeRepository.findById(id).orElseThrow(NotFoundException::new);
 		employeeRepository.save(mapToEntity(employeeDTO));
 	}
 

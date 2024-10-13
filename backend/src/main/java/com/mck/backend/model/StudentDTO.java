@@ -1,6 +1,7 @@
 package com.mck.backend.model;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class StudentDTO {
 
+  @Positive
 	private Long id;
 
 	@NotNull
@@ -28,6 +30,7 @@ public class StudentDTO {
 	@Size(max = 255)
 	private String phone;
 
-	private List<Long> courses;
+  @NotNull
+	private List<@Positive Long> courses;
 
 }

@@ -52,7 +52,7 @@ public class StudentService {
 	}
 
 	public void update(Long id, StudentDTO studentDTO) {
-		Student student = studentRepository.findById(id).orElseThrow(NotFoundException::new);
+		studentRepository.findById(id).orElseThrow(NotFoundException::new);
 		studentRepository.save(mapToEntity(studentDTO));
 	}
 

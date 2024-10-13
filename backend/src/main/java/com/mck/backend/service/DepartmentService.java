@@ -42,7 +42,7 @@ public class DepartmentService {
 	}
 
 	public void update(Long id, DepartmentDTO departmentDTO) {
-		Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
+		departmentRepository.findById(id).orElseThrow(NotFoundException::new);
 		departmentRepository.save(mapToEntity(departmentDTO));
 	}
 
