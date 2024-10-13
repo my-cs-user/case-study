@@ -8,17 +8,16 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Entity
 @Table(name = "Course")
 @Getter
 @Setter
 public class Course extends AbstractEntity {
 
-  @Column(nullable = false)
-  private String name;
+	@Column(nullable = false)
+	private String name;
 
-  @ManyToMany(mappedBy = "courses")
-  private Set<Student> students;
+	@ManyToMany(mappedBy = "courses")
+	private Set<Student> students;
 
 }

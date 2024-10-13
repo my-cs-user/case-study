@@ -6,29 +6,28 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class StudentDTO {
 
-  private Long id;
+	private Long id;
 
-  @NotNull
-  @Size(max = 255)
-  private String name;
+	@NotNull
+	@Size(max = 255)
+	private String name;
 
-  @NotNull
-  @Size(max = 255)
-  private String surname;
+	@NotNull
+	@Size(max = 255)
+	private String surname;
 
-  @NotNull
-  @Size(max = 255)
-  private String email;
+	@NotNull
+	@Size(max = 255)
+	private String email;
 
-  @NotNull
-  @Size(max = 255)
-  private String phone;
+	@NotNull
+	@Size(max = 255)
+	private String phone;
 
-  private List<Long> courses;
+	private List<Long> courses;
 
 }

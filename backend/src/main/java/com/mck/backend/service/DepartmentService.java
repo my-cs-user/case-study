@@ -12,66 +12,62 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class DepartmentService {
 
-  private final DepartmentRepository departmentRepository;
-  private final EmployeeRepository employeeRepository;
-  private final DepartmentMapper departmentMapper;
+	private final DepartmentRepository departmentRepository;
 
-  public DepartmentService(DepartmentRepository departmentRepository,
-      EmployeeRepository employeeRepository, DepartmentMapper departmentMapper) {
-    this.departmentRepository = departmentRepository;
-    this.employeeRepository = employeeRepository;
-    this.departmentMapper = departmentMapper;
-  }
+	private final EmployeeRepository employeeRepository;
 
-  public List<DepartmentDTO> findAll() {
-    final List<Department> departments = departmentRepository.findAll(Sort.by("id"));
-    return departments.stream()
-        .map(this::mapToDTO)
-        .toList();
-  }
+	private final DepartmentMapper departmentMapper;
 
-  public DepartmentDTO get(Long id) {
-    return departmentRepository.findById(id)
-        .map(this::mapToDTO)
-        .orElseThrow(NotFoundException::new);
-  }
+	public DepartmentService(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository,
+			DepartmentMapper departmentMapper) {
+		this.departmentRepository = departmentRepository;
+		this.employeeRepository = employeeRepository;
+		this.departmentMapper = departmentMapper;
+	}
 
-  public Long create(DepartmentDTO departmentDTO) {
-    return departmentRepository.save(mapToEntity(departmentDTO)).getId();
-  }
+	public List<DepartmentDTO> findAll() {
+		List<Department> departments = departmentRepository.findAll(Sort.by("id"));
+		return departments.stream().map(this::mapToDTO).toList();
+	}
 
-  public void update(Long id, DepartmentDTO departmentDTO) {
-    final Department department = departmentRepository.findById(id)
-        .orElseThrow(NotFoundException::new);
-    departmentRepository.save(mapToEntity(departmentDTO));
-  }
+	public DepartmentDTO get(Long id) {
+		return departmentRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
+	}
 
-  public void delete(Long id) {
-    departmentRepository.deleteById(id);
-  }
+	public Long create(DepartmentDTO departmentDTO) {
+		return departmentRepository.save(mapToEntity(departmentDTO)).getId();
+	}
 
-  private DepartmentDTO mapToDTO(Department department) {
-    return departmentMapper.toDTO(department);
-  }
+	public void update(Long id, DepartmentDTO departmentDTO) {
+		Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
+		departmentRepository.save(mapToEntity(departmentDTO));
+	}
 
-  private Department mapToEntity(DepartmentDTO departmentDTO) {
-    return departmentMapper.fromDTO(departmentDTO);
-  }
+	public void delete(Long id) {
+		departmentRepository.deleteById(id);
+	}
 
-  public ReferencedWarning getReferencedWarning(final Long id) {
-    final ReferencedWarning referencedWarning = new ReferencedWarning();
-    final Department department = departmentRepository.findById(id)
-        .orElseThrow(NotFoundException::new);
-    final Employee departmentEmployee = employeeRepository.findFirstByDepartment(department);
-    if (departmentEmployee != null) {
-      referencedWarning.setKey("department.employee.department.referenced");
-      referencedWarning.addParam(departmentEmployee.getId());
-      return referencedWarning;
-    }
-    return null;
-  }
+	private DepartmentDTO mapToDTO(Department department) {
+		return departmentMapper.toDTO(department);
+	}
+
+	private Department mapToEntity(DepartmentDTO departmentDTO) {
+		return departmentMapper.fromDTO(departmentDTO);
+	}
+
+	public ReferencedWarning getReferencedWarning(Long id) {
+		ReferencedWarning referencedWarning = new ReferencedWarning();
+		Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
+		Employee departmentEmployee = employeeRepository.findFirstByDepartment(department);
+		if (departmentEmployee != null) {
+			referencedWarning.setKey("department.employee.department.referenced");
+			referencedWarning.addParam(departmentEmployee.getId());
+			return referencedWarning;
+		}
+		return null;
+	}
+
 }

@@ -5,26 +5,24 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class ReferencedWarning {
 
-  private String key = null;
-  private ArrayList<Object> params = new ArrayList<>();
+	private String key = null;
 
-  public void addParam(final Object param) {
-    params.add(param);
-  }
+	private ArrayList<Object> params = new ArrayList<>();
 
-  public String toMessage() {
-    String message = key;
-    if (!params.isEmpty()) {
-      message += "," + params.stream()
-          .map(Object::toString)
-          .collect(Collectors.joining(","));
-    }
-    return message;
-  }
+	public void addParam(Object param) {
+		params.add(param);
+	}
+
+	public String toMessage() {
+		String message = key;
+		if (!params.isEmpty()) {
+			message += "," + params.stream().map(Object::toString).collect(Collectors.joining(","));
+		}
+		return message;
+	}
 
 }

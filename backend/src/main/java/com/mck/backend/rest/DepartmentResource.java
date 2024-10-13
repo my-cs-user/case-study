@@ -19,50 +19,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping(value = "/api/departments", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DepartmentResource {
 
-  private final DepartmentService departmentService;
+	private final DepartmentService departmentService;
 
-  public DepartmentResource(final DepartmentService departmentService) {
-    this.departmentService = departmentService;
-  }
+	public DepartmentResource(DepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
 
-  @GetMapping
-  public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
-    return ResponseEntity.ok(departmentService.findAll());
-  }
+	@GetMapping
+	public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
+		return ResponseEntity.ok(departmentService.findAll());
+	}
 
-  @GetMapping("/{id}")
-  public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") Long id) {
-    return ResponseEntity.ok(departmentService.get(id));
-  }
+	@GetMapping("/{id}")
+	public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") Long id) {
+		return ResponseEntity.ok(departmentService.get(id));
+	}
 
-  @PostMapping
-  @ApiResponse(responseCode = "201")
-  public ResponseEntity<Long> createDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
-    final Long createdId = departmentService.create(departmentDTO);
-    return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-  }
+	@PostMapping
+	@ApiResponse(responseCode = "201")
+	public ResponseEntity<Long> createDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
+		Long createdId = departmentService.create(departmentDTO);
+		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+	}
 
-  @PutMapping("/{id}")
-  public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") Long id,
-      @RequestBody @Valid DepartmentDTO departmentDTO) {
-    departmentService.update(id, departmentDTO);
-    return ResponseEntity.ok(id);
-  }
+	@PutMapping("/{id}")
+	public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") Long id,
+			@RequestBody @Valid DepartmentDTO departmentDTO) {
+		departmentService.update(id, departmentDTO);
+		return ResponseEntity.ok(id);
+	}
 
-  @DeleteMapping("/{id}")
-  @ApiResponse(responseCode = "204")
-  public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") Long id) {
-    final ReferencedWarning referencedWarning = departmentService.getReferencedWarning(id);
-    if (referencedWarning != null) {
-      throw new ReferencedException(referencedWarning);
-    }
-    departmentService.delete(id);
-    return ResponseEntity.noContent().build();
-  }
+	@DeleteMapping("/{id}")
+	@ApiResponse(responseCode = "204")
+	public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") Long id) {
+		ReferencedWarning referencedWarning = departmentService.getReferencedWarning(id);
+		if (referencedWarning != null) {
+			throw new ReferencedException(referencedWarning);
+		}
+		departmentService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 
 }

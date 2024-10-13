@@ -12,10 +12,10 @@ import lombok.Setter;
 @Setter
 public class UserInfo extends AbstractEntity {
 
-  @Column(nullable = false)
-  private String username;
+	@Column(nullable = false)
+	private String username;
 
-  @Column(nullable = false)
-  private String password;
+	@Column(nullable = false)
+	private String password;
 
 }

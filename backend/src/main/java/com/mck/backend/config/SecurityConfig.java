@@ -29,64 +29,66 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-  private final JwtAuthFilter authFilter;
+	private final JwtAuthFilter authFilter;
 
-  public SecurityConfig(JwtAuthFilter authFilter) {
-    this.authFilter = authFilter;
-  }
+	public SecurityConfig(JwtAuthFilter authFilter) {
+		this.authFilter = authFilter;
+	}
 
-  // User Creation
-  @Bean
-  public UserDetailsService userDetailsService(UserInfoRepository repository,
-      PasswordEncoder passwordEncoder) {
-    return new UserInfoService(repository, passwordEncoder);
-  }
+	// User Creation
+	@Bean
+	public UserDetailsService userDetailsService(UserInfoRepository repository, PasswordEncoder passwordEncoder) {
+		return new UserInfoService(repository, passwordEncoder);
+	}
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http,
-      AuthenticationProvider authenticationProvider) throws Exception {
-    return http
-        .authorizeHttpRequests((authz) -> authz
-            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .requestMatchers("/auth/*").permitAll()
-            .requestMatchers("/auth/hello").authenticated()
-            .requestMatchers("/api/**").authenticated()
-            .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
-        )
-        .csrf(AbstractHttpConfigurer::disable)
-        .cors(withDefaults())
-        .httpBasic(withDefaults())
-        .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authenticationProvider(authenticationProvider)
-        .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
-  }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider)
+			throws Exception {
+		return http
+			.authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.OPTIONS, "/**")
+				.permitAll()
+				.requestMatchers("/auth/*")
+				.permitAll()
+				.requestMatchers("/auth/hello")
+				.authenticated()
+				.requestMatchers("/api/**")
+				.authenticated()
+				.requestMatchers("/v3/**", "/swagger-ui/**")
+				.permitAll())
+			.csrf(AbstractHttpConfigurer::disable)
+			.cors(withDefaults())
+			.httpBasic(withDefaults())
+			.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.authenticationProvider(authenticationProvider)
+			.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+			.build();
+	}
 
-  @Bean
-  public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-      PasswordEncoder passwordEncoder) {
-    DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    authenticationProvider.setUserDetailsService(userDetailsService);
-    authenticationProvider.setPasswordEncoder(passwordEncoder);
-    return authenticationProvider;
-  }
+	@Bean
+	public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
+			PasswordEncoder passwordEncoder) {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder);
+		return authenticationProvider;
+	}
 
-  @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-      throws Exception {
-    return config.getAuthenticationManager();
-  }
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
 
-  @Bean
-  public WebMvcConfigurer corsConfigurer() {
-    return new WebMvcConfigurer() {
-      @Override
-      public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedOrigins("http://localhost:3000")
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .allowedHeaders("*");
-      }
-    };
-  }
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+					.allowedOrigins("http://localhost:3000")
+					.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+					.allowedHeaders("*");
+			}
+		};
+	}
+
 }
