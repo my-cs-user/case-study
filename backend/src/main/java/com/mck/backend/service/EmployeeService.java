@@ -36,12 +36,12 @@ public class EmployeeService {
 	}
 
 	public Long create(EmployeeDTO employeeDTO) {
-		return employeeRepository.save(employeeMapper.toEntity(employeeDTO, departmentRepository)).getId();
+		return employeeRepository.save(mapToEntity(employeeDTO)).getId();
 	}
 
 	public void update(Long id, EmployeeDTO employeeDTO) {
 		Employee employee = employeeRepository.findById(id).orElseThrow(NotFoundException::new);
-		employeeRepository.save(employeeMapper.toEntity(employeeDTO, departmentRepository));
+		employeeRepository.save(mapToEntity(employeeDTO));
 	}
 
 	public void delete(Long id) {
@@ -64,7 +64,7 @@ public class EmployeeService {
 		return employeeMapper.toDTO(employee);
 	}
 
-	private Employee mapToEntity(EmployeeDTO employeeDTO, Employee employee) {
+	private Employee mapToEntity(EmployeeDTO employeeDTO) {
 		return employeeMapper.toEntity(employeeDTO, departmentRepository);
 	}
 

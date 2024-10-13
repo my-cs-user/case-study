@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.mck.backend.domain.Course;
 import com.mck.backend.domain.Student;
+import com.mck.backend.mapper.StudentMapper;
 import com.mck.backend.model.StudentDTO;
 import com.mck.backend.repos.CourseRepository;
 import com.mck.backend.repos.StudentRepository;
@@ -25,9 +26,13 @@ public class StudentService {
 
 	private final CourseRepository courseRepository;
 
-	public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
+	private final StudentMapper studentMapper;
+
+	public StudentService(StudentRepository studentRepository, CourseRepository courseRepository,
+			StudentMapper studentMapper) {
 		this.studentRepository = studentRepository;
 		this.courseRepository = courseRepository;
+		this.studentMapper = studentMapper;
 	}
 
 	public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable, String searchText) {
@@ -39,53 +44,32 @@ public class StudentService {
 		else {
 			students = studentRepository.findAllByCoursesAndSearchText(course, pageable, searchText);
 		}
-		return students.map(student -> mapToDTO(student, new StudentDTO()));
+		return students.map(this::mapToDTO);
 	}
 
 	public StudentDTO get(Long id) {
-		return studentRepository.findById(id)
-			.map(student -> mapToDTO(student, new StudentDTO()))
-			.orElseThrow(NotFoundException::new);
+		return studentRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
 	}
 
 	public Long create(StudentDTO studentDTO) {
-		Student student = new Student();
-		mapToEntity(studentDTO, student);
-		return studentRepository.save(student).getId();
+		return studentRepository.save(mapToEntity(studentDTO)).getId();
 	}
 
 	public void update(Long id, StudentDTO studentDTO) {
 		Student student = studentRepository.findById(id).orElseThrow(NotFoundException::new);
-		mapToEntity(studentDTO, student);
-		studentRepository.save(student);
+		studentRepository.save(mapToEntity(studentDTO));
 	}
 
 	public void delete(Long id) {
 		studentRepository.deleteById(id);
 	}
 
-	private StudentDTO mapToDTO(Student student, StudentDTO studentDTO) {
-		studentDTO.setId(student.getId());
-		studentDTO.setName(student.getName());
-		studentDTO.setSurname(student.getSurname());
-		studentDTO.setEmail(student.getEmail());
-		studentDTO.setPhone(student.getPhone());
-		studentDTO.setCourses(student.getCourses().stream().map(course -> course.getId()).toList());
-		return studentDTO;
+	private StudentDTO mapToDTO(Student student) {
+		return studentMapper.toDTO(student);
 	}
 
-	private Student mapToEntity(StudentDTO studentDTO, Student student) {
-		student.setName(studentDTO.getName());
-		student.setSurname(studentDTO.getSurname());
-		student.setEmail(studentDTO.getEmail());
-		student.setPhone(studentDTO.getPhone());
-		List<Course> courses = courseRepository
-			.findAllById(studentDTO.getCourses() == null ? Collections.emptyList() : studentDTO.getCourses());
-		if (courses.size() != (studentDTO.getCourses() == null ? 0 : studentDTO.getCourses().size())) {
-			throw new NotFoundException("one of courses not found");
-		}
-		student.setCourses(new HashSet<>(courses));
-		return student;
+	private Student mapToEntity(StudentDTO studentDTO) {
+		return studentMapper.toEntity(studentDTO, courseRepository);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.mck.backend.service;
 
 import com.mck.backend.domain.Course;
+import com.mck.backend.mapper.CourseMapper;
 import com.mck.backend.model.CourseDTO;
 import com.mck.backend.repos.CourseRepository;
 import com.mck.backend.repos.StudentRepository;
@@ -18,9 +19,13 @@ public class CourseService {
 
 	private final StudentRepository studentRepository;
 
-	public CourseService(CourseRepository courseRepository, StudentRepository studentRepository) {
+	private final CourseMapper courseMapper;
+
+	public CourseService(CourseRepository courseRepository, StudentRepository studentRepository,
+			CourseMapper courseMapper) {
 		this.courseRepository = courseRepository;
 		this.studentRepository = studentRepository;
+		this.courseMapper = courseMapper;
 	}
 
 	public List<CourseDTO> findAll() {
@@ -35,15 +40,12 @@ public class CourseService {
 	}
 
 	public Long create(CourseDTO courseDTO) {
-		Course course = new Course();
-		mapToEntity(courseDTO, course);
-		return courseRepository.save(course).getId();
+		return courseRepository.save(mapToEntity(courseDTO)).getId();
 	}
 
 	public void update(Long id, CourseDTO courseDTO) {
 		Course course = courseRepository.findById(id).orElseThrow(NotFoundException::new);
-		mapToEntity(courseDTO, course);
-		courseRepository.save(course);
+		courseRepository.save(mapToEntity(courseDTO));
 	}
 
 	public void delete(Long id) {
@@ -59,9 +61,8 @@ public class CourseService {
 		return courseDTO;
 	}
 
-	private Course mapToEntity(CourseDTO courseDTO, Course course) {
-		course.setName(courseDTO.getName());
-		return course;
+	private Course mapToEntity(CourseDTO courseDTO) {
+		return courseMapper.toEntity(courseDTO);
 	}
 
 }

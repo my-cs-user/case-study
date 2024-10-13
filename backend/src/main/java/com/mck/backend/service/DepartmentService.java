@@ -55,7 +55,7 @@ public class DepartmentService {
 	}
 
 	private Department mapToEntity(DepartmentDTO departmentDTO) {
-		return departmentMapper.fromDTO(departmentDTO);
+		return departmentMapper.toEntity(departmentDTO);
 	}
 
 	public ReferencedWarning getReferencedWarning(Long id) {
