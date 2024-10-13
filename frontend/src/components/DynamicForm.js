@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 
-const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange }) => {
+const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange, setErrors }) => {
   const [formData, setFormData] = useState({});
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     if (entity) {
@@ -15,15 +16,39 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange }) => 
     const updatedData = { ...formData, [name]: value };
     setFormData(updatedData); // formData'yı güncelle
     onChange(updatedData); // dışarıya güncellenmiş veriyi ilet
+
+    validateField(name, value);
   };
 
   const handleSelectChange = (selectedOptions, fieldName) => {
     const selectedValues = Array.isArray(selectedOptions)
         ? selectedOptions.map(option => option.value)
         : selectedOptions ? selectedOptions.value : null;
+
     const updatedData = { ...formData, [fieldName]: selectedValues };
     setFormData(updatedData);
     onChange(updatedData);
+
+    validateField(fieldName, selectedValues);
+  };
+
+  // Alan validasyonu
+  const validateField = (name, value) => {
+    const field = fields.find(f => f.name === name);
+    let error = '';
+
+    // Boş array kontrolü
+    if (field.required && (value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0))) {
+      error = `${field.label} is required`;
+    } else if (field.type === 'email' && value && !/\S+@\S+\.\S+/.test(value)) {
+      error = 'Invalid email format';
+    } else if (field.type === 'number' && value && isNaN(value)) {
+      error = 'Value must be a number';
+    } else if (field.type === 'phone' && value && !/^\+?[0-9\s()-]+$/.test(value)) {
+        error = 'Phone number can only contain numbers, +, -, (, ), and spaces';
+    }
+    setFormErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
   };
 
 
@@ -61,6 +86,7 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange }) => 
                       onChange={handleChange} // değişiklikleri yakala
                   />
               )}
+              {formErrors[field.name] && <small className="text-danger">{formErrors[field.name]}</small>}
             </div>
         ))}
       </form>

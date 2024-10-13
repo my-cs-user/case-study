@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import DynamicForm from './DynamicForm';
 
 const EntityModal = ({ show, onHide, entity = {}, fields, masterEntities, onCreate, onUpdate, onDelete }) => {
-    const [formData, setFormData] = React.useState(entity || {}); // Varsayılan değer ekle
+    const [formData, setFormData] = useState(entity || {}); // Varsayılan değer ekle
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         setFormData(entity || {}); // Entity değiştiğinde form verisini güncelle
@@ -13,11 +14,22 @@ const EntityModal = ({ show, onHide, entity = {}, fields, masterEntities, onCrea
         setFormData(updatedFormData); // Formdaki değişiklikleri güncelle
     };
 
+    const validateForm = () => {
+        return Object.keys(formErrors).every(key => !formErrors[key]) && Object.keys(fields).every(key => {
+            const field = fields[key];
+            return !(field.required && !formData[field.name]);
+        });
+    };
+
     const handleSubmit = () => {
-        if (formData.id) {
-            onUpdate(formData); // Güncellenmiş veriyi gönder
+        if (validateForm()) {
+            if (formData.id) {
+                onUpdate(formData); // Güncellenmiş veriyi gönder
+            } else {
+                onCreate(formData); // Yeni kayıt oluştur
+            }
         } else {
-            onCreate(formData); // Yeni kayıt oluştur
+            alert('Please fix the form errors before submitting');
         }
     };
 
@@ -36,6 +48,7 @@ const EntityModal = ({ show, onHide, entity = {}, fields, masterEntities, onCrea
                     entity={formData}
                     masterEntities={masterEntities} // masterEntities'i geç
                     onChange={handleFormChange}
+                    setErrors={setFormErrors}
                 />
             </Modal.Body>
             <Modal.Footer>

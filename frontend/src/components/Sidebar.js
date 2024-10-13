@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 function Sidebar() {
   return (
     <nav className="sidebar">
-      <ul>
-        <li><Link to="/departments">Departments & Employees</Link></li>
-        <li><Link to="/courses">Courses & Students</Link></li>
-      </ul>
+        <ul>
+            <li><Link to="/auth">Login & Register</Link></li>
+            <li><Link to="/departments">Departments & Employees</Link></li>
+            <li><Link to="/courses">Courses & Students</Link></li>
+        </ul>
     </nav>
   );
 }
