@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import com.mck.backend.domain.Department;
 import com.mck.backend.domain.Employee;
+import com.mck.backend.mapper.EmployeeMapper;
 import com.mck.backend.model.EmployeeDTO;
 import com.mck.backend.repos.DepartmentRepository;
 import com.mck.backend.repos.EmployeeRepository;
@@ -20,28 +21,28 @@ public class EmployeeService {
 
   private final EmployeeRepository employeeRepository;
   private final DepartmentRepository departmentRepository;
+  private final EmployeeMapper employeeMapper;
 
-  public EmployeeService(final EmployeeRepository employeeRepository,
-      final DepartmentRepository departmentRepository) {
+  public EmployeeService( EmployeeRepository employeeRepository,
+       DepartmentRepository departmentRepository, EmployeeMapper employeeMapper) {
     this.employeeRepository = employeeRepository;
     this.departmentRepository = departmentRepository;
+    this.employeeMapper = employeeMapper;
   }
 
   public EmployeeDTO get(final Long id) {
-    return employeeRepository.findById(id).map(employee -> mapToDTO(employee, new EmployeeDTO()))
+    return employeeRepository.findById(id)
+        .map(this::mapToDTO)
         .orElseThrow(NotFoundException::new);
   }
 
   public Long create(final EmployeeDTO employeeDTO) {
-    final Employee employee = new Employee();
-    mapToEntity(employeeDTO, employee);
-    return employeeRepository.save(employee).getId();
+    return employeeRepository.save(employeeMapper.toEntity(employeeDTO, departmentRepository)).getId();
   }
 
   public void update(final Long id, final EmployeeDTO employeeDTO) {
     final Employee employee = employeeRepository.findById(id).orElseThrow(NotFoundException::new);
-    mapToEntity(employeeDTO, employee);
-    employeeRepository.save(employee);
+    employeeRepository.save(employeeMapper.toEntity(employeeDTO, departmentRepository));
   }
 
   public void delete(final Long id) {
@@ -58,32 +59,14 @@ public class EmployeeService {
     } else {
       employees = employeeRepository.findByDepartmentAndSearchText(department, searchText, pageable);
     }
-    return employees.map(employee -> mapToDTO(employee, new EmployeeDTO()));
+    return employees.map(this::mapToDTO);
   }
 
-  private EmployeeDTO mapToDTO(final Employee employee, final EmployeeDTO employeeDTO) {
-    employeeDTO.setId(employee.getId());
-    employeeDTO.setName(employee.getName());
-    employeeDTO.setSurname(employee.getSurname());
-    employeeDTO.setSalary(employee.getSalary());
-    employeeDTO.setEmail(employee.getEmail());
-    employeeDTO.setPhone(employee.getPhone());
-    employeeDTO.setDepartment(
-        employee.getDepartment() == null ? null : employee.getDepartment().getId());
-    return employeeDTO;
+  private EmployeeDTO mapToDTO( Employee employee) {
+    return employeeMapper.toDTO(employee);
   }
 
   private Employee mapToEntity(final EmployeeDTO employeeDTO, final Employee employee) {
-    employee.setName(employeeDTO.getName());
-    employee.setSurname(employeeDTO.getSurname());
-    employee.setSalary(employeeDTO.getSalary());
-    employee.setEmail(employeeDTO.getEmail());
-    employee.setPhone(employeeDTO.getPhone());
-    final Department department = employeeDTO.getDepartment() == null ? null
-        : departmentRepository.findById(employeeDTO.getDepartment())
-            .orElseThrow(() -> new NotFoundException("department not found"));
-    employee.setDepartment(department);
-    return employee;
+    return employeeMapper.toEntity(employeeDTO, departmentRepository);
   }
-
 }

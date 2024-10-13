@@ -6,6 +6,7 @@ import com.mck.backend.util.ReferencedException;
 import com.mck.backend.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class DepartmentResource {
     this.departmentService = departmentService;
   }
 
+  @GetMapping
+  public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
+    return ResponseEntity.ok(departmentService.findAll());
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") Long id) {
     return ResponseEntity.ok(departmentService.get(id));
@@ -36,8 +42,7 @@ public class DepartmentResource {
 
   @PostMapping
   @ApiResponse(responseCode = "201")
-  public ResponseEntity<Long> createDepartment(
-      @RequestBody @Valid DepartmentDTO departmentDTO) {
+  public ResponseEntity<Long> createDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
     final Long createdId = departmentService.create(departmentDTO);
     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
   }

@@ -4,6 +4,7 @@ import com.mck.backend.model.CourseDTO;
 import com.mck.backend.service.CourseService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,11 @@ public class CourseResource {
 
   public CourseResource(final CourseService courseService) {
     this.courseService = courseService;
+  }
+
+  @GetMapping
+  public ResponseEntity<List<CourseDTO>> getAllCourses() {
+    return ResponseEntity.ok(courseService.findAll());
   }
 
   @GetMapping("/{id}")

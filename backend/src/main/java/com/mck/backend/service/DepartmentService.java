@@ -27,6 +27,13 @@ public class DepartmentService {
     this.departmentMapper = departmentMapper;
   }
 
+  public List<DepartmentDTO> findAll() {
+    final List<Department> departments = departmentRepository.findAll(Sort.by("id"));
+    return departments.stream()
+        .map(this::mapToDTO)
+        .toList();
+  }
+
   public DepartmentDTO get(Long id) {
     return departmentRepository.findById(id)
         .map(this::mapToDTO)
