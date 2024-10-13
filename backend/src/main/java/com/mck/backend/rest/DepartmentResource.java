@@ -6,7 +6,6 @@ import com.mck.backend.util.ReferencedException;
 import com.mck.backend.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,34 +29,29 @@ public class DepartmentResource {
     this.departmentService = departmentService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
-    return ResponseEntity.ok(departmentService.findAll());
-  }
-
   @GetMapping("/{id}")
-  public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") final Long id) {
+  public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") Long id) {
     return ResponseEntity.ok(departmentService.get(id));
   }
 
   @PostMapping
   @ApiResponse(responseCode = "201")
   public ResponseEntity<Long> createDepartment(
-      @RequestBody @Valid final DepartmentDTO departmentDTO) {
+      @RequestBody @Valid DepartmentDTO departmentDTO) {
     final Long createdId = departmentService.create(departmentDTO);
     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") final Long id,
-      @RequestBody @Valid final DepartmentDTO departmentDTO) {
+  public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") Long id,
+      @RequestBody @Valid DepartmentDTO departmentDTO) {
     departmentService.update(id, departmentDTO);
     return ResponseEntity.ok(id);
   }
 
   @DeleteMapping("/{id}")
   @ApiResponse(responseCode = "204")
-  public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") final Long id) {
+  public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") Long id) {
     final ReferencedWarning referencedWarning = departmentService.getReferencedWarning(id);
     if (referencedWarning != null) {
       throw new ReferencedException(referencedWarning);

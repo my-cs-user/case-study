@@ -4,7 +4,6 @@ import com.mck.backend.model.StudentDTO;
 import com.mck.backend.service.StudentService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,11 +29,6 @@ public class StudentResource {
 
   public StudentResource(final StudentService studentService) {
     this.studentService = studentService;
-  }
-
-  @GetMapping
-  public ResponseEntity<List<StudentDTO>> getAllStudents() {
-    return ResponseEntity.ok(studentService.findAll());
   }
 
   @GetMapping("/{id}")

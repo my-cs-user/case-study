@@ -31,13 +31,6 @@ public class StudentService {
     this.courseRepository = courseRepository;
   }
 
-  public List<StudentDTO> findAll() {
-    final List<Student> students = studentRepository.findAll(Sort.by("id"));
-    return students.stream()
-        .map(student -> mapToDTO(student, new StudentDTO()))
-        .toList();
-  }
-
   public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable, String searchText) {
     Course course = courseRepository.findById(courseId)
         .orElseThrow(NotFoundException::new);

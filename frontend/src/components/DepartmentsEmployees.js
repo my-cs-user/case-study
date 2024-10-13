@@ -189,15 +189,20 @@ function DepartmentsEmployees() {
                 </tr>
                 </thead>
                 <tbody>
-                {employees.map((employee) => (
-                    <tr key={employee.id} onClick={() => handleEmployeeSelect(employee)}>
-                      <td>{employee.name}</td>
-                      <td>{employee.surname}</td>
-                      <td>{employee.email}</td>
-                      <td>{employee.phone}</td>
-                      <td>{employee.department}</td>
-                    </tr>
-                ))}
+                {employees.map((employee) => {
+                  const departmentName =
+                      departments.find((dept) => dept.id === employee.department)?.name || 'N/A';
+                  return (
+                      <tr key={employee.id} onClick={() => handleEmployeeSelect(employee)}>
+                        <td>{employee.name}</td>
+                        <td>{employee.surname}</td>
+                        <td>{employee.email}</td>
+                        <td>{employee.phone}</td>
+                        <td>{employee.salary}</td>
+                        <td>{departmentName}</td>
+                      </tr>
+                  );
+                })}
                 </tbody>
               </Table>
 

@@ -54,7 +54,7 @@ public class SecurityConfig {
             .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
         )
         .csrf(AbstractHttpConfigurer::disable)
-        .cors(withDefaults())  // CORS'u etkinleştirin
+        .cors(withDefaults())
         .httpBasic(withDefaults())
         .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider)

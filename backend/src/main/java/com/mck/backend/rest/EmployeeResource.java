@@ -4,7 +4,6 @@ import com.mck.backend.model.EmployeeDTO;
 import com.mck.backend.service.EmployeeService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,11 +29,6 @@ public class EmployeeResource {
 
   public EmployeeResource(final EmployeeService employeeService) {
     this.employeeService = employeeService;
-  }
-
-  @GetMapping
-  public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
-    return ResponseEntity.ok(employeeService.findAll());
   }
 
   @GetMapping("/departments/{departmentId}")

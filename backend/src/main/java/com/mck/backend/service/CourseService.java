@@ -24,13 +24,6 @@ public class CourseService {
     this.studentRepository = studentRepository;
   }
 
-  public List<CourseDTO> findAll() {
-    final List<Course> courses = courseRepository.findAll(Sort.by("id"));
-    return courses.stream()
-        .map(course -> mapToDTO(course, new CourseDTO()))
-        .toList();
-  }
-
   public CourseDTO get(final Long id) {
     return courseRepository.findById(id)
         .map(course -> mapToDTO(course, new CourseDTO()))

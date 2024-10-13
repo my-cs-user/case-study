@@ -4,7 +4,6 @@ import com.mck.backend.model.CourseDTO;
 import com.mck.backend.service.CourseService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,25 +27,20 @@ public class CourseResource {
     this.courseService = courseService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<CourseDTO>> getAllCourses() {
-    return ResponseEntity.ok(courseService.findAll());
-  }
-
   @GetMapping("/{id}")
-  public ResponseEntity<CourseDTO> getCourse(@PathVariable(name = "id") final Long id) {
+  public ResponseEntity<CourseDTO> getCourse(@PathVariable(name = "id") Long id) {
     return ResponseEntity.ok(courseService.get(id));
   }
 
   @PostMapping
   @ApiResponse(responseCode = "201")
-  public ResponseEntity<Long> createCourse(@RequestBody @Valid final CourseDTO courseDTO) {
+  public ResponseEntity<Long> createCourse(@RequestBody @Valid CourseDTO courseDTO) {
     final Long createdId = courseService.create(courseDTO);
     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Long> updateCourse(@PathVariable(name = "id") final Long id,
+  public ResponseEntity<Long> updateCourse(@PathVariable(name = "id") Long id,
       @RequestBody @Valid final CourseDTO courseDTO) {
     courseService.update(id, courseDTO);
     return ResponseEntity.ok(id);
@@ -54,7 +48,7 @@ public class CourseResource {
 
   @DeleteMapping("/{id}")
   @ApiResponse(responseCode = "204")
-  public ResponseEntity<Void> deleteCourse(@PathVariable(name = "id") final Long id) {
+  public ResponseEntity<Void> deleteCourse(@PathVariable(name = "id") Long id) {
     courseService.delete(id);
     return ResponseEntity.noContent().build();
   }

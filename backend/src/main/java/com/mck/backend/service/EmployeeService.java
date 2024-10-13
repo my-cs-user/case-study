@@ -27,11 +27,6 @@ public class EmployeeService {
     this.departmentRepository = departmentRepository;
   }
 
-  public List<EmployeeDTO> findAll() {
-    final List<Employee> employees = employeeRepository.findAll(Sort.by("id"));
-    return employees.stream().map(employee -> mapToDTO(employee, new EmployeeDTO())).toList();
-  }
-
   public EmployeeDTO get(final Long id) {
     return employeeRepository.findById(id).map(employee -> mapToDTO(employee, new EmployeeDTO()))
         .orElseThrow(NotFoundException::new);
