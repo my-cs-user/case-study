@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Pagination, Alert } from 'react-bootstrap';
+import { Table, Button, Pagination, Alert, Form } from 'react-bootstrap';
 import api from './api';
 import EntityModal from './EntityModal';
 import { studentFields } from './formFields';
@@ -15,6 +15,7 @@ function CoursesStudents() {
   const [totalRecords, setTotalRecords] = useState(0);
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     fetchCourses();
@@ -29,10 +30,10 @@ function CoursesStudents() {
     }
   };
 
-  const fetchStudents = async (courseId, page = 0) => {
+  const fetchStudents = async (courseId, page = 0, search = '') => {
     try {
       const response = await api.get(`/api/students/courses/${courseId}`, {
-        params: { page, size: 10 }
+        params: { page, size: 10, searchText: search }
       });
       setStudents(response.data.content);
       setTotalRecords(response.data.totalElements);
@@ -88,7 +89,15 @@ function CoursesStudents() {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    fetchStudents(selectedCourse.id, pageNumber);
+    fetchStudents(selectedCourse.id, pageNumber, searchText);
+  };
+
+  const handleSearchChange = (event) => {
+    const { value } = event.target;
+    setSearchText(value);
+    if (selectedCourse) {
+      fetchStudents(selectedCourse.id, 0, value); // Reset to the first page on search
+    }
   };
 
   const displayMessage = (msg, type) => {
@@ -136,6 +145,19 @@ function CoursesStudents() {
           </select>
         </div>
 
+        {/* Search Bar */}
+        {selectedCourse && (
+            <Form.Group className="mb-3">
+              <Form.Label>Search Students:</Form.Label>
+              <Form.Control
+                  type="text"
+                  placeholder="Search students"
+                  value={searchText}
+                  onChange={handleSearchChange}
+              />
+            </Form.Group>
+        )}
+
         {/* Create Student Button */}
         {selectedCourse && (
             <Button className="mb-3" variant="primary" onClick={() => setShowCreateModal(true)}>
@@ -153,7 +175,7 @@ function CoursesStudents() {
                   <th>Surname</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>Courses</th> {/* Courses instead of Department */}
+                  <th>Courses</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -171,7 +193,6 @@ function CoursesStudents() {
                             ))}
                           </ul>
                         </td>
-
                       </tr>
                   );
                 })}
@@ -202,7 +223,7 @@ function CoursesStudents() {
                 onHide={() => setShowModal(false)}
                 entity={selectedStudent}
                 fields={studentFields}
-                masterEntities={courses} // Kurs bilgilerini geç
+                masterEntities={courses} // Course information
                 onUpdate={handleUpdateStudent}
                 onDelete={handleDeleteStudent}
             />
@@ -215,7 +236,7 @@ function CoursesStudents() {
                 onHide={() => setShowCreateModal(false)}
                 entity={{}}
                 fields={studentFields}
-                masterEntities={courses} // Kurs bilgilerini geç
+                masterEntities={courses} // Course information
                 onCreate={handleCreateStudent}
             />
         )}

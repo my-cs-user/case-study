@@ -46,9 +46,10 @@ public class StudentResource {
   public ResponseEntity<Page<StudentDTO>> getAllStudentsByCourseId(
       @PathVariable(name = "courseId") final Long courseId,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int size) {
+      @RequestParam(defaultValue = "10") int size,
+      @RequestParam(required = false) String searchText) {
     Pageable pageable = PageRequest.of(page, size);
-    Page<StudentDTO> students = studentService.findByCourseId(courseId, pageable);
+    Page<StudentDTO> students = studentService.findByCourseId(courseId, pageable, searchText);
     return ResponseEntity.ok(students);
   }
 

@@ -1,5 +1,7 @@
 package com.mck.backend.service;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import com.mck.backend.domain.Course;
 import com.mck.backend.domain.Student;
 import com.mck.backend.model.StudentDTO;
@@ -36,10 +38,15 @@ public class StudentService {
         .toList();
   }
 
-  public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable) {
+  public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable, String searchText) {
     Course course = courseRepository.findById(courseId)
         .orElseThrow(NotFoundException::new);
-    Page<Student> students = studentRepository.findAllByCourses(course, pageable);
+    Page<Student> students;
+    if (isBlank(searchText)) {
+      students = studentRepository.findAllByCourses(course, pageable);
+    } else {
+      students = studentRepository.findAllByCoursesAndSearchText(course, pageable, searchText);
+    }
     return students.map(student -> mapToDTO(student, new StudentDTO()));
   }
 

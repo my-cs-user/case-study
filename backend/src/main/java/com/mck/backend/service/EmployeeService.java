@@ -1,5 +1,7 @@
 package com.mck.backend.service;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import com.mck.backend.domain.Department;
 import com.mck.backend.domain.Employee;
 import com.mck.backend.model.EmployeeDTO;
@@ -51,10 +53,16 @@ public class EmployeeService {
     employeeRepository.deleteById(id);
   }
 
-  public Page<EmployeeDTO> findByDepartmentId(Long departmentId, Pageable pageable) {
+  public Page<EmployeeDTO> findByDepartmentId(Long departmentId, Pageable pageable,
+      String searchText) {
     Department department = departmentRepository.findById(departmentId)
         .orElseThrow(NotFoundException::new);
-    Page<Employee> employees = employeeRepository.findByDepartment(department, pageable);
+    Page<Employee> employees;
+    if (isBlank(searchText)) {
+      employees = employeeRepository.findByDepartment(department, pageable);
+    } else {
+      employees = employeeRepository.findByDepartmentAndSearchText(department, searchText, pageable);
+    }
     return employees.map(employee -> mapToDTO(employee, new EmployeeDTO()));
   }
 

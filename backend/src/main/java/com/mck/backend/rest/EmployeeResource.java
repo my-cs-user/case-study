@@ -41,9 +41,11 @@ public class EmployeeResource {
   public ResponseEntity<Page<EmployeeDTO>> getEmployeesByDepartmentId(
       @PathVariable(name = "departmentId") final Long departmentId,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "10") int size) {
+      @RequestParam(defaultValue = "10") int size,
+      @RequestParam(required = false) String searchText) {
     Pageable pageable = PageRequest.of(page, size);
-    Page<EmployeeDTO> employees = employeeService.findByDepartmentId(departmentId, pageable);
+    Page<EmployeeDTO> employees = employeeService.findByDepartmentId(departmentId, pageable,
+        searchText);
     return ResponseEntity.ok(employees);
   }
 
