@@ -3,7 +3,7 @@ package com.mck.backend.mapper;
 import com.mck.backend.domain.Course;
 import com.mck.backend.domain.Student;
 import com.mck.backend.model.StudentDTO;
-import com.mck.backend.repos.CourseRepository;
+import com.mck.backend.repository.CourseRepository;
 import com.mck.backend.util.NotFoundException;
 import java.util.HashSet;
 import java.util.List;

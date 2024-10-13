@@ -1,4 +1,4 @@
-package com.mck.backend.repos;
+package com.mck.backend.repository;
 
 import com.mck.backend.domain.Department;
 import com.mck.backend.domain.Employee;

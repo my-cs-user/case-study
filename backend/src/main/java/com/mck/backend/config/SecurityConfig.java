@@ -2,8 +2,8 @@ package com.mck.backend.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import com.mck.backend.repos.UserInfoRepository;
-import com.mck.backend.service.JwtAuthFilter;
+import com.mck.backend.repository.UserInfoRepository;
+import com.mck.backend.service.jwt.JwtAuthFilter;
 import com.mck.backend.service.UserInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

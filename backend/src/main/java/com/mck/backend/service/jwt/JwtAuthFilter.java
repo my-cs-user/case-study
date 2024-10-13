@@ -1,5 +1,6 @@
-package com.mck.backend.service;
+package com.mck.backend.service.jwt;
 
+import com.mck.backend.service.UserInfoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

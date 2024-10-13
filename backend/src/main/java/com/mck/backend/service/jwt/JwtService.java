@@ -1,4 +1,4 @@
-package com.mck.backend.service;
+package com.mck.backend.service.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package com.mck.backend.rest;
+package com.mck.backend.controller;
 
 import com.mck.backend.model.DepartmentDTO;
 import com.mck.backend.service.DepartmentService;

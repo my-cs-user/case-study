@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from './api'; // Import the axios instance with interceptors
+import api from '../common/api'; // Import the axios instance with interceptors
 import './AuthPage.css';
 import {Alert} from "react-bootstrap"; // Assuming you have a CSS file for styling
 

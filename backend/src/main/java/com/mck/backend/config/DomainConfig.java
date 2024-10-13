@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EntityScan("com.mck.backend.domain")
-@EnableJpaRepositories("com.mck.backend.repos")
+@EnableJpaRepositories("com.mck.backend.repository")
 @EnableTransactionManagement
 @EnableJpaAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
 public class DomainConfig {

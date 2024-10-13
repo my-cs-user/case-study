@@ -1,4 +1,4 @@
-package com.mck.backend.repos;
+package com.mck.backend.repository;
 
 import com.mck.backend.domain.Course;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Pagination, Alert, Form } from 'react-bootstrap';
-import api from './api';
-import EntityModal from './EntityModal';
-import { employeeFields } from './formFields';
+import api from './common/api';
+import EntityModal from './common/EntityModal';
+import { employeeFields } from './common/formFields';
 
 function DepartmentsEmployees() {
   const [departments, setDepartments] = useState([]);

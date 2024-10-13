@@ -3,7 +3,7 @@ package com.mck.backend.mapper;
 import com.mck.backend.domain.Department;
 import com.mck.backend.domain.Employee;
 import com.mck.backend.model.EmployeeDTO;
-import com.mck.backend.repos.DepartmentRepository;
+import com.mck.backend.repository.DepartmentRepository;
 import com.mck.backend.util.NotFoundException;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;

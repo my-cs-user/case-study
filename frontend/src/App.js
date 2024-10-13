@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import DepartmentsEmployees from './components/DepartmentsEmployees';
 import CoursesStudents from './components/CoursesStudents';
-import AuthPage from './components/AuthPage'; // AuthPage'i içe aktar
+import AuthPage from './components/auth/AuthPage'; // AuthPage'i içe aktar
 import './App.css';
 
 function App() {

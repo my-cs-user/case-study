@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Pagination, Alert, Form } from 'react-bootstrap';
-import api from './api';
-import EntityModal from './EntityModal';
-import { studentFields } from './formFields';
+import api from './common/api';
+import EntityModal from './common/EntityModal';
+import { studentFields } from './common/formFields';
 
 function CoursesStudents() {
   const [courses, setCourses] = useState([]);
