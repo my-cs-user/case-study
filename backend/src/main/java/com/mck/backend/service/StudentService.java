@@ -18,49 +18,50 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class StudentService {
 
-	private final StudentRepository studentRepository;
+  private final StudentRepository studentRepository;
 
-	private final CourseRepository courseRepository;
+  private final CourseRepository courseRepository;
 
-	private final StudentMapper studentMapper;
+  private final StudentMapper studentMapper;
 
-	public StudentService(StudentRepository studentRepository, CourseRepository courseRepository,
-			StudentMapper studentMapper) {
-		this.studentRepository = studentRepository;
-		this.courseRepository = courseRepository;
-		this.studentMapper = studentMapper;
-	}
+  public StudentService(StudentRepository studentRepository, CourseRepository courseRepository,
+      StudentMapper studentMapper) {
+    this.studentRepository = studentRepository;
+    this.courseRepository = courseRepository;
+    this.studentMapper = studentMapper;
+  }
 
-	public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable, String searchText) {
-		Course course = courseRepository.findById(courseId).orElseThrow(NotFoundException::new);
-		Page<Student> students = isBlank(searchText) ? studentRepository.findAllByCourses(course, pageable)
-				: studentRepository.findAllByCoursesAndSearchText(course, pageable, searchText);
-		return students.map(this::mapToDTO);
-	}
+  public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable, String searchText) {
+    Course course = courseRepository.findById(courseId).orElseThrow(NotFoundException::new);
+    Page<Student> students = isBlank(searchText) ?
+        studentRepository.findAllByCourses(course, pageable) :
+        studentRepository.findAllByCoursesAndSearchText(course, pageable, searchText);
+    return students.map(this::mapToDTO);
+  }
 
-	public StudentDTO get(Long id) {
-		return studentRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
-	}
+  public StudentDTO get(Long id) {
+    return studentRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
+  }
 
-	public Long create(StudentDTO studentDTO) {
-		return studentRepository.save(mapToEntity(studentDTO)).getId();
-	}
+  public Long create(StudentDTO studentDTO) {
+    return studentRepository.save(mapToEntity(studentDTO)).getId();
+  }
 
-	public void update(StudentDTO studentDTO) {
-		studentRepository.findById(studentDTO.getId()).orElseThrow(NotFoundException::new);
-		studentRepository.save(mapToEntity(studentDTO));
-	}
+  public void update(StudentDTO studentDTO) {
+    studentRepository.findById(studentDTO.getId()).orElseThrow(NotFoundException::new);
+    studentRepository.save(mapToEntity(studentDTO));
+  }
 
-	public void delete(Long id) {
-		studentRepository.deleteById(id);
-	}
+  public void delete(Long id) {
+    studentRepository.deleteById(id);
+  }
 
-	private StudentDTO mapToDTO(Student student) {
-		return studentMapper.toDTO(student);
-	}
+  private StudentDTO mapToDTO(Student student) {
+    return studentMapper.toDTO(student);
+  }
 
-	private Student mapToEntity(StudentDTO studentDTO) {
-		return studentMapper.toEntity(studentDTO, courseRepository);
-	}
+  private Student mapToEntity(StudentDTO studentDTO) {
+    return studentMapper.toEntity(studentDTO, courseRepository);
+  }
 
 }

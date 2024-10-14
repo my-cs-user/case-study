@@ -10,21 +10,21 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-	List<Student> findAllByCourses(Course course);
+  List<Student> findAllByCourses(Course course);
 
-	Page<Student> findAllByCourses(Course course, Pageable pageable);
+  Page<Student> findAllByCourses(Course course, Pageable pageable);
 
-	@Query("""
-			  SELECT s FROM Student s
-			  JOIN s.courses c
-			  WHERE c = :course
-			  AND (
-			    LOWER(s.name) LIKE LOWER(CONCAT('%', :searchText, '%'))
-			    OR LOWER(s.surname) LIKE LOWER(CONCAT('%', :searchText, '%'))
-			    OR LOWER(s.email) LIKE LOWER(CONCAT('%', :searchText, '%'))
-			    OR LOWER(s.phone) LIKE LOWER(CONCAT('%', :searchText, '%'))
-			  )
-			""")
-	Page<Student> findAllByCoursesAndSearchText(Course course, Pageable pageable, String searchText);
+  @Query("""
+        SELECT s FROM Student s
+        JOIN s.courses c
+        WHERE c = :course
+        AND (
+          LOWER(s.name) LIKE LOWER(CONCAT('%', :searchText, '%'))
+          OR LOWER(s.surname) LIKE LOWER(CONCAT('%', :searchText, '%'))
+          OR LOWER(s.email) LIKE LOWER(CONCAT('%', :searchText, '%'))
+          OR LOWER(s.phone) LIKE LOWER(CONCAT('%', :searchText, '%'))
+        )
+      """)
+  Page<Student> findAllByCoursesAndSearchText(Course course, Pageable pageable, String searchText);
 
 }

@@ -14,10 +14,10 @@ import lombok.Setter;
 @Setter
 public class Department extends AbstractEntity {
 
-	@Column(nullable = false)
-	private String name;
+  @Column(nullable = false)
+  private String name;
 
-	@OneToMany(mappedBy = "department")
-	private Set<Employee> employees;
+  @OneToMany(mappedBy = "department")
+  private Set<Employee> employees;
 
 }

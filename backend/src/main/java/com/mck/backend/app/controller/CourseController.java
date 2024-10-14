@@ -24,44 +24,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/courses", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CourseController {
 
-	private final CourseService courseService;
+  private final CourseService courseService;
 
-	private final CourseMapper courseMapper;
+  private final CourseMapper courseMapper;
 
-	public CourseController(CourseService courseService, CourseMapper courseMapper) {
-		this.courseService = courseService;
-		this.courseMapper = courseMapper;
-	}
+  public CourseController(CourseService courseService, CourseMapper courseMapper) {
+    this.courseService = courseService;
+    this.courseMapper = courseMapper;
+  }
 
-	@GetMapping
-	public ResponseEntity<List<CourseDTO>> getAllCourses() {
-		return ResponseEntity.ok(courseService.findAll());
-	}
+  @GetMapping
+  public ResponseEntity<List<CourseDTO>> getAllCourses() {
+    return ResponseEntity.ok(courseService.findAll());
+  }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<CourseDTO> getCourse(@PathVariable(name = "id") Long id) {
-		return ResponseEntity.ok(courseService.get(id));
-	}
+  @GetMapping("/{id}")
+  public ResponseEntity<CourseDTO> getCourse(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.ok(courseService.get(id));
+  }
 
-	@PostMapping
-	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createCourse(@RequestBody @Valid CreateCourseRequest request) {
-		Long createdId = courseService.create(courseMapper.toDTO(request));
-		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-	}
+  @PostMapping
+  @ApiResponse(responseCode = "201")
+  public ResponseEntity<Long> createCourse(@RequestBody @Valid CreateCourseRequest request) {
+    Long createdId = courseService.create(courseMapper.toDTO(request));
+    return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+  }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Long> updateCourse(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid UpdateCourseRequest request) {
-		courseService.update(courseMapper.toDTO(id, request));
-		return ResponseEntity.ok(id);
-	}
+  @PutMapping("/{id}")
+  public ResponseEntity<Long> updateCourse(@PathVariable(name = "id") Long id,
+      @RequestBody @Valid UpdateCourseRequest request) {
+    courseService.update(courseMapper.toDTO(id, request));
+    return ResponseEntity.ok(id);
+  }
 
-	@DeleteMapping("/{id}")
-	@ApiResponse(responseCode = "204")
-	public ResponseEntity<Void> deleteCourse(@PathVariable(name = "id") Long id) {
-		courseService.delete(id);
-		return ResponseEntity.noContent().build();
-	}
+  @DeleteMapping("/{id}")
+  @ApiResponse(responseCode = "204")
+  public ResponseEntity<Void> deleteCourse(@PathVariable(name = "id") Long id) {
+    courseService.delete(id);
+    return ResponseEntity.noContent().build();
+  }
 
 }

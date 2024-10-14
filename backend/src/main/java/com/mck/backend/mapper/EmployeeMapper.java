@@ -15,26 +15,27 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
 
-	EmployeeDTO toDTO(CreateEmployeeRequest request);
+  EmployeeDTO toDTO(CreateEmployeeRequest request);
 
-	@Mapping(source = "id", target = "id")
-	EmployeeDTO toDTO(Long id, UpdateEmployeeRequest request);
+  @Mapping(source = "id", target = "id")
+  EmployeeDTO toDTO(Long id, UpdateEmployeeRequest request);
 
-	@Mapping(source = "department", target = "department", qualifiedByName = "departmentToId")
-	EmployeeDTO toDTO(Employee employee);
+  @Mapping(source = "department", target = "department", qualifiedByName = "departmentToId")
+  EmployeeDTO toDTO(Employee employee);
 
-	@Mapping(source = "department", target = "department", qualifiedByName = "idToDepartment")
-	Employee toEntity(EmployeeDTO employeeDTO, @Context DepartmentRepository departmentRepository);
+  @Mapping(source = "department", target = "department", qualifiedByName = "idToDepartment")
+  Employee toEntity(EmployeeDTO employeeDTO, @Context DepartmentRepository departmentRepository);
 
-	@Named("departmentToId")
-	default Long departmentToId(Department department) {
-		return department != null ? department.getId() : null;
-	}
+  @Named("departmentToId")
+  default Long departmentToId(Department department) {
+    return department != null ? department.getId() : null;
+  }
 
-	@Named("idToDepartment")
-	default Department idToDepartment(Long departmentId, @Context DepartmentRepository departmentRepository) {
-		return departmentId != null ? departmentRepository.findById(departmentId)
-			.orElseThrow(() -> new NotFoundException("Department not found")) : null;
-	}
+  @Named("idToDepartment")
+  default Department idToDepartment(Long departmentId,
+      @Context DepartmentRepository departmentRepository) {
+    return departmentId != null ? departmentRepository.findById(departmentId)
+        .orElseThrow(() -> new NotFoundException("Department not found")) : null;
+  }
 
 }

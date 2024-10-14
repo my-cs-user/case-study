@@ -27,48 +27,51 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/employees", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmployeeController {
 
-	private final EmployeeService employeeService;
+  private final EmployeeService employeeService;
 
-	private final EmployeeMapper employeeMapper;
+  private final EmployeeMapper employeeMapper;
 
-	public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
-		this.employeeService = employeeService;
+  public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
+    this.employeeService = employeeService;
     this.employeeMapper = employeeMapper;
   }
 
-	@GetMapping("/departments/{departmentId}")
-	public ResponseEntity<Page<EmployeeDTO>> getEmployeesByDepartmentId(
-			@PathVariable(name = "departmentId") Long departmentId, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "10") int size, @RequestParam(required = false) String searchText) {
-		Pageable pageable = PageRequest.of(page, size);
-		Page<EmployeeDTO> employees = employeeService.findByDepartmentId(departmentId, pageable, searchText);
-		return ResponseEntity.ok(employees);
-	}
+  @GetMapping("/departments/{departmentId}")
+  public ResponseEntity<Page<EmployeeDTO>> getEmployeesByDepartmentId(
+      @PathVariable(name = "departmentId") Long departmentId,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size,
+      @RequestParam(required = false) String searchText) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page<EmployeeDTO> employees = employeeService.findByDepartmentId(departmentId, pageable,
+        searchText);
+    return ResponseEntity.ok(employees);
+  }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable(name = "id") Long id) {
-		return ResponseEntity.ok(employeeService.get(id));
-	}
+  @GetMapping("/{id}")
+  public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.ok(employeeService.get(id));
+  }
 
-	@PostMapping
-	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
-		Long createdId = employeeService.create(employeeMapper.toDTO(request));
-		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-	}
+  @PostMapping
+  @ApiResponse(responseCode = "201")
+  public ResponseEntity<Long> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
+    Long createdId = employeeService.create(employeeMapper.toDTO(request));
+    return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+  }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Long> updateEmployee(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid UpdateEmployeeRequest request) {
-		employeeService.update(employeeMapper.toDTO(id, request));
-		return ResponseEntity.ok(id);
-	}
+  @PutMapping("/{id}")
+  public ResponseEntity<Long> updateEmployee(@PathVariable(name = "id") Long id,
+      @RequestBody @Valid UpdateEmployeeRequest request) {
+    employeeService.update(employeeMapper.toDTO(id, request));
+    return ResponseEntity.ok(id);
+  }
 
-	@DeleteMapping("/{id}")
-	@ApiResponse(responseCode = "204")
-	public ResponseEntity<Void> deleteEmployee(@PathVariable(name = "id") Long id) {
-		employeeService.delete(id);
-		return ResponseEntity.noContent().build();
-	}
+  @DeleteMapping("/{id}")
+  @ApiResponse(responseCode = "204")
+  public ResponseEntity<Void> deleteEmployee(@PathVariable(name = "id") Long id) {
+    employeeService.delete(id);
+    return ResponseEntity.noContent().build();
+  }
 
 }

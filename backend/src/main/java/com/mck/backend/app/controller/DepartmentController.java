@@ -26,49 +26,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/departments", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DepartmentController {
 
-	private final DepartmentService departmentService;
+  private final DepartmentService departmentService;
 
-	private final DepartmentMapper departmentMapper;
+  private final DepartmentMapper departmentMapper;
 
-	public DepartmentController(DepartmentService departmentService,
+  public DepartmentController(DepartmentService departmentService,
       DepartmentMapper departmentMapper) {
-		this.departmentService = departmentService;
+    this.departmentService = departmentService;
     this.departmentMapper = departmentMapper;
   }
 
-	@GetMapping
-	public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
-		return ResponseEntity.ok(departmentService.findAll());
-	}
+  @GetMapping
+  public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
+    return ResponseEntity.ok(departmentService.findAll());
+  }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") Long id) {
-		return ResponseEntity.ok(departmentService.get(id));
-	}
+  @GetMapping("/{id}")
+  public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "id") Long id) {
+    return ResponseEntity.ok(departmentService.get(id));
+  }
 
-	@PostMapping
-	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createDepartment(@RequestBody @Valid CreateDepartmentRequest request) {
-		Long createdId = departmentService.create(departmentMapper.toDTO(request));
-		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-	}
+  @PostMapping
+  @ApiResponse(responseCode = "201")
+  public ResponseEntity<Long> createDepartment(
+      @RequestBody @Valid CreateDepartmentRequest request) {
+    Long createdId = departmentService.create(departmentMapper.toDTO(request));
+    return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+  }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid UpdateDepartmentRequest request) {
-		departmentService.update(departmentMapper.toDTO(id, request));
-		return ResponseEntity.ok(id);
-	}
+  @PutMapping("/{id}")
+  public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") Long id,
+      @RequestBody @Valid UpdateDepartmentRequest request) {
+    departmentService.update(departmentMapper.toDTO(id, request));
+    return ResponseEntity.ok(id);
+  }
 
-	@DeleteMapping("/{id}")
-	@ApiResponse(responseCode = "204")
-	public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") Long id) {
-		ReferencedWarning referencedWarning = departmentService.getReferencedWarning(id);
-		if (referencedWarning != null) {
-			throw new ReferencedException(referencedWarning);
-		}
-		departmentService.delete(id);
-		return ResponseEntity.noContent().build();
-	}
+  @DeleteMapping("/{id}")
+  @ApiResponse(responseCode = "204")
+  public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") Long id) {
+    ReferencedWarning referencedWarning = departmentService.getReferencedWarning(id);
+    if (referencedWarning != null) {
+      throw new ReferencedException(referencedWarning);
+    }
+    departmentService.delete(id);
+    return ResponseEntity.noContent().build();
+  }
 
 }

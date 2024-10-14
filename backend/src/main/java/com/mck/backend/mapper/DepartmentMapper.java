@@ -10,13 +10,13 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface DepartmentMapper {
 
-	DepartmentDTO toDTO(CreateDepartmentRequest request);
+  DepartmentDTO toDTO(CreateDepartmentRequest request);
 
-	@Mapping(source = "id", target = "id")
-	DepartmentDTO toDTO(Long id, UpdateDepartmentRequest request);
+  @Mapping(source = "id", target = "id")
+  DepartmentDTO toDTO(Long id, UpdateDepartmentRequest request);
 
-	DepartmentDTO toDTO(Department department);
+  DepartmentDTO toDTO(Department department);
 
-	Department toEntity(DepartmentDTO departmentDTO);
+  Department toEntity(DepartmentDTO departmentDTO);
 
 }

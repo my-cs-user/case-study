@@ -16,49 +16,53 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
 
-	private final EmployeeRepository employeeRepository;
+  private final EmployeeRepository employeeRepository;
 
-	private final DepartmentRepository departmentRepository;
+  private final DepartmentRepository departmentRepository;
 
-	private final EmployeeMapper employeeMapper;
+  private final EmployeeMapper employeeMapper;
 
-	public EmployeeService(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository,
-			EmployeeMapper employeeMapper) {
-		this.employeeRepository = employeeRepository;
-		this.departmentRepository = departmentRepository;
-		this.employeeMapper = employeeMapper;
-	}
+  public EmployeeService(EmployeeRepository employeeRepository,
+      DepartmentRepository departmentRepository,
+      EmployeeMapper employeeMapper) {
+    this.employeeRepository = employeeRepository;
+    this.departmentRepository = departmentRepository;
+    this.employeeMapper = employeeMapper;
+  }
 
-	public EmployeeDTO get(Long id) {
-		return employeeRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
-	}
+  public EmployeeDTO get(Long id) {
+    return employeeRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
+  }
 
-	public Long create(EmployeeDTO employeeDTO) {
-		return employeeRepository.save(mapToEntity(employeeDTO)).getId();
-	}
+  public Long create(EmployeeDTO employeeDTO) {
+    return employeeRepository.save(mapToEntity(employeeDTO)).getId();
+  }
 
-	public void update(EmployeeDTO employeeDTO) {
-		employeeRepository.findById(employeeDTO.getId()).orElseThrow(NotFoundException::new);
-		employeeRepository.save(mapToEntity(employeeDTO));
-	}
+  public void update(EmployeeDTO employeeDTO) {
+    employeeRepository.findById(employeeDTO.getId()).orElseThrow(NotFoundException::new);
+    employeeRepository.save(mapToEntity(employeeDTO));
+  }
 
-	public void delete(Long id) {
-		employeeRepository.deleteById(id);
-	}
+  public void delete(Long id) {
+    employeeRepository.deleteById(id);
+  }
 
-	public Page<EmployeeDTO> findByDepartmentId(Long departmentId, Pageable pageable, String searchText) {
-		Department department = departmentRepository.findById(departmentId).orElseThrow(NotFoundException::new);
-		Page<Employee> employees = isBlank(searchText) ? employeeRepository.findByDepartment(department, pageable)
-				: employeeRepository.findByDepartmentAndSearchText(department, searchText, pageable);
-		return employees.map(this::mapToDTO);
-	}
+  public Page<EmployeeDTO> findByDepartmentId(Long departmentId, Pageable pageable,
+      String searchText) {
+    Department department = departmentRepository.findById(departmentId)
+        .orElseThrow(NotFoundException::new);
+    Page<Employee> employees = isBlank(searchText) ?
+        employeeRepository.findByDepartment(department, pageable) :
+        employeeRepository.findByDepartmentAndSearchText(department, searchText, pageable);
+    return employees.map(this::mapToDTO);
+  }
 
-	private EmployeeDTO mapToDTO(Employee employee) {
-		return employeeMapper.toDTO(employee);
-	}
+  private EmployeeDTO mapToDTO(Employee employee) {
+    return employeeMapper.toDTO(employee);
+  }
 
-	private Employee mapToEntity(EmployeeDTO employeeDTO) {
-		return employeeMapper.toEntity(employeeDTO, departmentRepository);
-	}
+  private Employee mapToEntity(EmployeeDTO employeeDTO) {
+    return employeeMapper.toEntity(employeeDTO, departmentRepository);
+  }
 
 }

@@ -7,12 +7,12 @@ import java.util.List;
 
 public record UpdateStudentRequest(@Size(max = 255) String name,
 
-		@Size(max = 255) String surname,
+                                   @Size(max = 255) String surname,
 
-		@Email @Size(max = 255) String email,
+                                   @Email @Size(max = 255) String email,
 
-		@Size(max = 255) String phone,
+                                   @Size(max = 255) String phone,
 
-		List<@Positive Long> courses) {
+                                   List<@Positive Long> courses) {
 
 }

@@ -9,20 +9,20 @@ import lombok.Setter;
 @Setter
 public class ReferencedWarning {
 
-	private String key = null;
+  private String key = null;
 
-	private ArrayList<Object> params = new ArrayList<>();
+  private ArrayList<Object> params = new ArrayList<>();
 
-	public void addParam(Object param) {
-		params.add(param);
-	}
+  public void addParam(Object param) {
+    params.add(param);
+  }
 
-	public String toMessage() {
-		String message = key;
-		if (!params.isEmpty()) {
-			message += "," + params.stream().map(Object::toString).collect(Collectors.joining(","));
-		}
-		return message;
-	}
+  public String toMessage() {
+    String message = key;
+    if (!params.isEmpty()) {
+      message += "," + params.stream().map(Object::toString).collect(Collectors.joining(","));
+    }
+    return message;
+  }
 
 }

@@ -8,11 +8,12 @@ import java.util.List;
 
 public record CreateStudentRequest(@NotNull @Size(max = 255) String name,
 
-		@NotNull @Size(max = 255) String surname,
+                                   @NotNull @Size(max = 255) String surname,
 
-		@NotNull @Email @Size(max = 255) String email,
+                                   @NotNull @Email @Size(max = 255) String email,
 
-		@NotNull @Size(max = 255) String phone,
+                                   @NotNull @Size(max = 255) String phone,
 
-		@NotNull List<@Positive Long> courses) {
+                                   @NotNull List<@Positive Long> courses) {
+
 }

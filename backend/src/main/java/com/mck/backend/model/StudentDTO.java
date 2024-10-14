@@ -11,26 +11,26 @@ import lombok.Setter;
 @Setter
 public class StudentDTO {
 
-	@Positive
-	private Long id;
+  @Positive
+  private Long id;
 
-	@NotNull
-	@Size(max = 255)
-	private String name;
+  @NotNull
+  @Size(max = 255)
+  private String name;
 
-	@NotNull
-	@Size(max = 255)
-	private String surname;
+  @NotNull
+  @Size(max = 255)
+  private String surname;
 
-	@NotNull
-	@Size(max = 255)
-	private String email;
+  @NotNull
+  @Size(max = 255)
+  private String email;
 
-	@NotNull
-	@Size(max = 255)
-	private String phone;
+  @NotNull
+  @Size(max = 255)
+  private String phone;
 
-	@NotNull
-	private List<@Positive Long> courses;
+  @NotNull
+  private List<@Positive Long> courses;
 
 }

@@ -20,19 +20,19 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 public abstract class AbstractEntity {
 
-	@Id
-	@Column(nullable = false, updatable = false)
-	@SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1,
-			initialValue = 10000)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
-	private Long id;
+  @Id
+  @Column(nullable = false, updatable = false)
+  @SequenceGenerator(name = "primary_sequence", sequenceName = "primary_sequence", allocationSize = 1,
+      initialValue = 10000)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "primary_sequence")
+  private Long id;
 
-	@CreatedDate
-	@Column(nullable = false, updatable = false)
-	private OffsetDateTime dateCreated;
+  @CreatedDate
+  @Column(nullable = false, updatable = false)
+  private OffsetDateTime dateCreated;
 
-	@LastModifiedDate
-	@Column(nullable = false)
-	private OffsetDateTime lastUpdated;
+  @LastModifiedDate
+  @Column(nullable = false)
+  private OffsetDateTime lastUpdated;
 
 }

@@ -13,31 +13,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfoService implements UserDetailsService {
 
-	private final UserInfoRepository repository;
+  private final UserInfoRepository repository;
 
-	private final PasswordEncoder encoder;
+  private final PasswordEncoder encoder;
 
-	public UserInfoService(UserInfoRepository repository, PasswordEncoder encoder) {
-		this.repository = repository;
-		this.encoder = encoder;
-	}
+  public UserInfoService(UserInfoRepository repository, PasswordEncoder encoder) {
+    this.repository = repository;
+    this.encoder = encoder;
+  }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<UserInfo> userDetail = repository.findByUsername(username);
-		// Converting userDetail to UserDetails
-		return userDetail.map(UserInfoDetails::new)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
-	}
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Optional<UserInfo> userDetail = repository.findByUsername(username);
+    return userDetail.map(UserInfoDetails::new)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+  }
 
-	public String addUser(UserInfo userInfo) {
-		Optional<UserInfo> userDetail = repository.findByUsername(userInfo.getUsername());
-		if (userDetail.isPresent()) {
-			throw new IllegalArgumentException("Already exists");
-		}
-		userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-		repository.save(userInfo);
-		return "User Added Successfully";
-	}
+  public String addUser(UserInfo userInfo) {
+    Optional<UserInfo> userDetail = repository.findByUsername(userInfo.getUsername());
+    if (userDetail.isPresent()) {
+      throw new IllegalArgumentException("Already exists");
+    }
+    userInfo.setPassword(encoder.encode(userInfo.getPassword()));
+    repository.save(userInfo);
+    return "User Added Successfully";
+  }
 
 }

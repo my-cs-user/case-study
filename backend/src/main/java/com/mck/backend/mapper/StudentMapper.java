@@ -18,32 +18,33 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring", uses = CourseMapper.class)
 public interface StudentMapper {
 
-	StudentDTO toDTO(CreateStudentRequest request);
+  StudentDTO toDTO(CreateStudentRequest request);
 
-	@Mapping(source = "id", target = "id")
-	StudentDTO toDTO(Long id, UpdateStudentRequest request);
+  @Mapping(source = "id", target = "id")
+  StudentDTO toDTO(Long id, UpdateStudentRequest request);
 
-	@Mapping(source = "courses", target = "courses", qualifiedByName = "coursesToIds")
-	StudentDTO toDTO(Student student);
+  @Mapping(source = "courses", target = "courses", qualifiedByName = "coursesToIds")
+  StudentDTO toDTO(Student student);
 
-	@Mapping(source = "courses", target = "courses", qualifiedByName = "idsToCourses")
-	Student toEntity(StudentDTO studentDTO, @Context CourseRepository courseRepository);
+  @Mapping(source = "courses", target = "courses", qualifiedByName = "idsToCourses")
+  Student toEntity(StudentDTO studentDTO, @Context CourseRepository courseRepository);
 
-	@Named("coursesToIds")
-	default List<Long> coursesToIds(Set<Course> courses) {
-		return courses != null ? courses.stream().map(Course::getId).toList() : null;
-	}
+  @Named("coursesToIds")
+  default List<Long> coursesToIds(Set<Course> courses) {
+    return courses != null ? courses.stream().map(Course::getId).toList() : null;
+  }
 
-	@Named("idsToCourses")
-	default Set<Course> idsToCourses(List<Long> courseIds, @Context CourseRepository courseRepository) {
-		if (courseIds == null) {
-			return null;
-		}
-		List<Course> courses = courseRepository.findAllById(courseIds);
-		if (courses.size() != courseIds.size()) {
-			throw new NotFoundException("One of the courses not found");
-		}
-		return new HashSet<>(courses);
-	}
+  @Named("idsToCourses")
+  default Set<Course> idsToCourses(List<Long> courseIds,
+      @Context CourseRepository courseRepository) {
+    if (courseIds == null) {
+      return null;
+    }
+    List<Course> courses = courseRepository.findAllById(courseIds);
+    if (courses.size() != courseIds.size()) {
+      throw new NotFoundException("One of the courses not found");
+    }
+    return new HashSet<>(courses);
+  }
 
 }

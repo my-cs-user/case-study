@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class DepartmentDTO {
 
-	@Positive
-	private Long id;
+  @Positive
+  private Long id;
 
-	@NotNull
-	@Size(max = 255)
-	private String name;
+  @NotNull
+  @Size(max = 255)
+  private String name;
 
 }

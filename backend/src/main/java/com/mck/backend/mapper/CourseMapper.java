@@ -10,13 +10,13 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface CourseMapper {
 
-	CourseDTO toDTO(CreateCourseRequest request);
+  CourseDTO toDTO(CreateCourseRequest request);
 
-	@Mapping(source = "id", target = "id")
-	CourseDTO toDTO(Long id, UpdateCourseRequest request);
+  @Mapping(source = "id", target = "id")
+  CourseDTO toDTO(Long id, UpdateCourseRequest request);
 
-	CourseDTO toDTO(Course course);
+  CourseDTO toDTO(Course course);
 
-	Course toEntity(CourseDTO courseDTO);
+  Course toEntity(CourseDTO courseDTO);
 
 }
