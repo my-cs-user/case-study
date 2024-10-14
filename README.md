@@ -1,6 +1,3 @@
-Sure! Here's the `README.md` in English:
-
-```markdown
 # Project Name: Courses and Employees Management System
 
 ## About the Project
@@ -49,12 +46,3 @@ This project is a web application for managing data related to courses and emplo
 ## Usage
 - Visit `http://localhost:3000` in your browser to view the application.
 - You can view students and employees by selecting between Courses and Departments.
-
-## Contributing
-If you would like to contribute, please feel free to create a pull request. All contributions are welcome!
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for more information.
-```
-
-Feel free to customize this template according to your project's needs. If you have any specific sections or additional information you'd like to include, just let me know!
