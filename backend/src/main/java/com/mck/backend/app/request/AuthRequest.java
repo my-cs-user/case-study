@@ -1,4 +1,4 @@
-package com.mck.backend.request;
+package com.mck.backend.app.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

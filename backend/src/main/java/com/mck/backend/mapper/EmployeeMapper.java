@@ -1,5 +1,7 @@
 package com.mck.backend.mapper;
 
+import com.mck.backend.app.request.CreateEmployeeRequest;
+import com.mck.backend.app.request.UpdateEmployeeRequest;
 import com.mck.backend.domain.Department;
 import com.mck.backend.domain.Employee;
 import com.mck.backend.model.EmployeeDTO;
@@ -12,6 +14,11 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
+
+	EmployeeDTO toDTO(CreateEmployeeRequest request);
+
+	@Mapping(source = "id", target = "id")
+	EmployeeDTO toDTO(Long id, UpdateEmployeeRequest request);
 
 	@Mapping(source = "department", target = "department", qualifiedByName = "departmentToId")
 	EmployeeDTO toDTO(Employee employee);

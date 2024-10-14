@@ -41,8 +41,8 @@ public class CourseService {
 		return courseRepository.save(mapToEntity(courseDTO)).getId();
 	}
 
-	public void update(Long id, CourseDTO courseDTO) {
-		courseRepository.findById(id).orElseThrow(NotFoundException::new);
+	public void update(CourseDTO courseDTO) {
+		courseRepository.findById(courseDTO.getId()).orElseThrow(NotFoundException::new);
 		courseRepository.save(mapToEntity(courseDTO));
 	}
 

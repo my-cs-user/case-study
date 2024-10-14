@@ -1,5 +1,8 @@
-package com.mck.backend.controller;
+package com.mck.backend.app.controller;
 
+import com.mck.backend.app.request.CreateDepartmentRequest;
+import com.mck.backend.app.request.UpdateDepartmentRequest;
+import com.mck.backend.mapper.DepartmentMapper;
 import com.mck.backend.model.DepartmentDTO;
 import com.mck.backend.service.DepartmentService;
 import com.mck.backend.util.ReferencedException;
@@ -25,9 +28,13 @@ public class DepartmentController {
 
 	private final DepartmentService departmentService;
 
-	public DepartmentController(DepartmentService departmentService) {
+	private final DepartmentMapper departmentMapper;
+
+	public DepartmentController(DepartmentService departmentService,
+      DepartmentMapper departmentMapper) {
 		this.departmentService = departmentService;
-	}
+    this.departmentMapper = departmentMapper;
+  }
 
 	@GetMapping
 	public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
@@ -41,15 +48,15 @@ public class DepartmentController {
 
 	@PostMapping
 	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
-		Long createdId = departmentService.create(departmentDTO);
+	public ResponseEntity<Long> createDepartment(@RequestBody @Valid CreateDepartmentRequest request) {
+		Long createdId = departmentService.create(departmentMapper.toDTO(request));
 		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Long> updateDepartment(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid DepartmentDTO departmentDTO) {
-		departmentService.update(id, departmentDTO);
+			@RequestBody @Valid UpdateDepartmentRequest request) {
+		departmentService.update(departmentMapper.toDTO(id, request));
 		return ResponseEntity.ok(id);
 	}
 

@@ -1,5 +1,8 @@
-package com.mck.backend.controller;
+package com.mck.backend.app.controller;
 
+import com.mck.backend.app.request.CreateCourseRequest;
+import com.mck.backend.app.request.UpdateCourseRequest;
+import com.mck.backend.mapper.CourseMapper;
 import com.mck.backend.model.CourseDTO;
 import com.mck.backend.service.CourseService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,8 +26,11 @@ public class CourseController {
 
 	private final CourseService courseService;
 
-	public CourseController(CourseService courseService) {
+	private final CourseMapper courseMapper;
+
+	public CourseController(CourseService courseService, CourseMapper courseMapper) {
 		this.courseService = courseService;
+		this.courseMapper = courseMapper;
 	}
 
 	@GetMapping
@@ -39,15 +45,15 @@ public class CourseController {
 
 	@PostMapping
 	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createCourse(@RequestBody @Valid CourseDTO courseDTO) {
-		Long createdId = courseService.create(courseDTO);
+	public ResponseEntity<Long> createCourse(@RequestBody @Valid CreateCourseRequest request) {
+		Long createdId = courseService.create(courseMapper.toDTO(request));
 		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Long> updateCourse(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid CourseDTO courseDTO) {
-		courseService.update(id, courseDTO);
+			@RequestBody @Valid UpdateCourseRequest request) {
+		courseService.update(courseMapper.toDTO(id, request));
 		return ResponseEntity.ok(id);
 	}
 

@@ -1,5 +1,8 @@
-package com.mck.backend.controller;
+package com.mck.backend.app.controller;
 
+import com.mck.backend.app.request.CreateEmployeeRequest;
+import com.mck.backend.app.request.UpdateEmployeeRequest;
+import com.mck.backend.mapper.EmployeeMapper;
 import com.mck.backend.model.EmployeeDTO;
 import com.mck.backend.service.EmployeeService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,9 +29,12 @@ public class EmployeeController {
 
 	private final EmployeeService employeeService;
 
-	public EmployeeController(EmployeeService employeeService) {
+	private final EmployeeMapper employeeMapper;
+
+	public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
 		this.employeeService = employeeService;
-	}
+    this.employeeMapper = employeeMapper;
+  }
 
 	@GetMapping("/departments/{departmentId}")
 	public ResponseEntity<Page<EmployeeDTO>> getEmployeesByDepartmentId(
@@ -46,15 +52,15 @@ public class EmployeeController {
 
 	@PostMapping
 	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createEmployee(@RequestBody @Valid EmployeeDTO employeeDTO) {
-		Long createdId = employeeService.create(employeeDTO);
+	public ResponseEntity<Long> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
+		Long createdId = employeeService.create(employeeMapper.toDTO(request));
 		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Long> updateEmployee(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid EmployeeDTO employeeDTO) {
-		employeeService.update(id, employeeDTO);
+			@RequestBody @Valid UpdateEmployeeRequest request) {
+		employeeService.update(employeeMapper.toDTO(id, request));
 		return ResponseEntity.ok(id);
 	}
 

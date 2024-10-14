@@ -1,5 +1,8 @@
-package com.mck.backend.controller;
+package com.mck.backend.app.controller;
 
+import com.mck.backend.app.request.CreateStudentRequest;
+import com.mck.backend.app.request.UpdateStudentRequest;
+import com.mck.backend.mapper.StudentMapper;
 import com.mck.backend.model.StudentDTO;
 import com.mck.backend.service.StudentService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,8 +29,11 @@ public class StudentController {
 
 	private final StudentService studentService;
 
-	public StudentController(StudentService studentService) {
+	private final StudentMapper studentMapper;
+
+	public StudentController(StudentService studentService, StudentMapper studentMapper) {
 		this.studentService = studentService;
+		this.studentMapper = studentMapper;
 	}
 
 	@GetMapping("/{id}")
@@ -46,15 +52,15 @@ public class StudentController {
 
 	@PostMapping
 	@ApiResponse(responseCode = "201")
-	public ResponseEntity<Long> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
-		Long createdId = studentService.create(studentDTO);
+	public ResponseEntity<Long> createStudent(@RequestBody @Valid CreateStudentRequest request) {
+		Long createdId = studentService.create(studentMapper.toDTO(request));
 		return new ResponseEntity<>(createdId, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Long> updateStudent(@PathVariable(name = "id") Long id,
-			@RequestBody @Valid StudentDTO studentDTO) {
-		studentService.update(id, studentDTO);
+			@RequestBody @Valid UpdateStudentRequest request) {
+		studentService.update(studentMapper.toDTO(id, request));
 		return ResponseEntity.ok(id);
 	}
 

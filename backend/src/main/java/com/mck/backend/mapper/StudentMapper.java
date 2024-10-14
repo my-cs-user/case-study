@@ -1,5 +1,7 @@
 package com.mck.backend.mapper;
 
+import com.mck.backend.app.request.CreateStudentRequest;
+import com.mck.backend.app.request.UpdateStudentRequest;
 import com.mck.backend.domain.Course;
 import com.mck.backend.domain.Student;
 import com.mck.backend.model.StudentDTO;
@@ -15,6 +17,11 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring", uses = CourseMapper.class)
 public interface StudentMapper {
+
+	StudentDTO toDTO(CreateStudentRequest request);
+
+	@Mapping(source = "id", target = "id")
+	StudentDTO toDTO(Long id, UpdateStudentRequest request);
 
 	@Mapping(source = "courses", target = "courses", qualifiedByName = "coursesToIds")
 	StudentDTO toDTO(Student student);
