@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/students", produces = MediaType.APPLICATION_JSON_VALUE)
-public class StudentResource {
+public class StudentController {
 
 	private final StudentService studentService;
 
-	public StudentResource(StudentService studentService) {
+	public StudentController(StudentService studentService) {
 		this.studentService = studentService;
 	}
 

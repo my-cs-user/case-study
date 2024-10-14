@@ -185,6 +185,7 @@ function DepartmentsEmployees() {
                   <th>Surname</th>
                   <th>Email</th>
                   <th>Phone</th>
+                  <th>Salary</th>
                   <th>Department</th>
                 </tr>
                 </thead>

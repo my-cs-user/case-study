@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/courses", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CourseResource {
+public class CourseController {
 
 	private final CourseService courseService;
 
-	public CourseResource(CourseService courseService) {
+	public CourseController(CourseService courseService) {
 		this.courseService = courseService;
 	}
 

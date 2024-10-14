@@ -33,13 +33,8 @@ public class StudentService {
 
 	public Page<StudentDTO> findByCourseId(Long courseId, Pageable pageable, String searchText) {
 		Course course = courseRepository.findById(courseId).orElseThrow(NotFoundException::new);
-		Page<Student> students;
-		if (isBlank(searchText)) {
-			students = studentRepository.findAllByCourses(course, pageable);
-		}
-		else {
-			students = studentRepository.findAllByCoursesAndSearchText(course, pageable, searchText);
-		}
+		Page<Student> students = isBlank(searchText) ? studentRepository.findAllByCourses(course, pageable)
+				: studentRepository.findAllByCoursesAndSearchText(course, pageable, searchText);
 		return students.map(this::mapToDTO);
 	}
 

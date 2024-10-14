@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/departments", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DepartmentResource {
+public class DepartmentController {
 
 	private final DepartmentService departmentService;
 
-	public DepartmentResource(DepartmentService departmentService) {
+	public DepartmentController(DepartmentService departmentService) {
 		this.departmentService = departmentService;
 	}
 

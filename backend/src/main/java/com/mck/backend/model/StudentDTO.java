@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class StudentDTO {
 
-  @Positive
+	@Positive
 	private Long id;
 
 	@NotNull
@@ -30,7 +30,7 @@ public class StudentDTO {
 	@Size(max = 255)
 	private String phone;
 
-  @NotNull
+	@NotNull
 	private List<@Positive Long> courses;
 
 }

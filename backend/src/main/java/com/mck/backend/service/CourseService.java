@@ -30,13 +30,11 @@ public class CourseService {
 
 	public List<CourseDTO> findAll() {
 		List<Course> courses = courseRepository.findAll(Sort.by("id"));
-		return courses.stream().map(course -> mapToDTO(course, new CourseDTO())).toList();
+		return courses.stream().map(this::mapToDTO).toList();
 	}
 
 	public CourseDTO get(Long id) {
-		return courseRepository.findById(id)
-			.map(course -> mapToDTO(course, new CourseDTO()))
-			.orElseThrow(NotFoundException::new);
+		return courseRepository.findById(id).map(this::mapToDTO).orElseThrow(NotFoundException::new);
 	}
 
 	public Long create(CourseDTO courseDTO) {
@@ -50,15 +48,12 @@ public class CourseService {
 
 	public void delete(Long id) {
 		Course course = courseRepository.findById(id).orElseThrow(NotFoundException::new);
-		// remove many-to-many relations at owning side
 		studentRepository.findAllByCourses(course).forEach(student -> student.getCourses().remove(course));
 		courseRepository.delete(course);
 	}
 
-	private CourseDTO mapToDTO(Course course, CourseDTO courseDTO) {
-		courseDTO.setId(course.getId());
-		courseDTO.setName(course.getName());
-		return courseDTO;
+	private CourseDTO mapToDTO(Course course) {
+		return courseMapper.toDTO(course);
 	}
 
 	private Course mapToEntity(CourseDTO courseDTO) {

@@ -48,13 +48,8 @@ public class EmployeeService {
 
 	public Page<EmployeeDTO> findByDepartmentId(Long departmentId, Pageable pageable, String searchText) {
 		Department department = departmentRepository.findById(departmentId).orElseThrow(NotFoundException::new);
-		Page<Employee> employees;
-		if (isBlank(searchText)) {
-			employees = employeeRepository.findByDepartment(department, pageable);
-		}
-		else {
-			employees = employeeRepository.findByDepartmentAndSearchText(department, searchText, pageable);
-		}
+		Page<Employee> employees = isBlank(searchText) ? employeeRepository.findByDepartment(department, pageable)
+				: employeeRepository.findByDepartmentAndSearchText(department, searchText, pageable);
 		return employees.map(this::mapToDTO);
 	}
 

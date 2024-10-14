@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/employees", produces = MediaType.APPLICATION_JSON_VALUE)
-public class EmployeeResource {
+public class EmployeeController {
 
 	private final EmployeeService employeeService;
 
-	public EmployeeResource(EmployeeService employeeService) {
+	public EmployeeController(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class DepartmentDTO {
 
-  @Positive
+	@Positive
 	private Long id;
 
 	@NotNull
