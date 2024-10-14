@@ -1,7 +1,7 @@
-package com.mck.backend.app.controller;
+package com.mck.backend.controller;
 
-import com.mck.backend.app.request.CreateEmployeeRequest;
-import com.mck.backend.app.request.UpdateEmployeeRequest;
+import com.mck.backend.request.CreateEmployeeRequest;
+import com.mck.backend.request.UpdateEmployeeRequest;
 import com.mck.backend.mapper.EmployeeMapper;
 import com.mck.backend.model.EmployeeDTO;
 import com.mck.backend.service.EmployeeService;

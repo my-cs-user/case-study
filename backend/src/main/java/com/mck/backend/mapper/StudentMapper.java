@@ -1,7 +1,7 @@
 package com.mck.backend.mapper;
 
-import com.mck.backend.app.request.CreateStudentRequest;
-import com.mck.backend.app.request.UpdateStudentRequest;
+import com.mck.backend.request.CreateStudentRequest;
+import com.mck.backend.request.UpdateStudentRequest;
 import com.mck.backend.domain.Course;
 import com.mck.backend.domain.Student;
 import com.mck.backend.model.StudentDTO;

@@ -1,7 +1,7 @@
 package com.mck.backend.mapper;
 
-import com.mck.backend.app.request.CreateDepartmentRequest;
-import com.mck.backend.app.request.UpdateDepartmentRequest;
+import com.mck.backend.request.CreateDepartmentRequest;
+import com.mck.backend.request.UpdateDepartmentRequest;
 import com.mck.backend.domain.Department;
 import com.mck.backend.model.DepartmentDTO;
 import org.mapstruct.Mapper;

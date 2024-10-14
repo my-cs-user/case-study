@@ -44,7 +44,7 @@ public class DepartmentService {
   }
 
   public void update(DepartmentDTO departmentDTO) {
-    departmentRepository.findById(departmentDTO.getId()).orElseThrow(NotFoundException::new);
+    departmentRepository.findById(departmentDTO.id()).orElseThrow(NotFoundException::new);
     departmentRepository.save(mapToEntity(departmentDTO));
   }
 

@@ -1,6 +1,6 @@
-package com.mck.backend.app.controller;
+package com.mck.backend.controller;
 
-import com.mck.backend.app.request.AuthRequest;
+import com.mck.backend.request.AuthRequest;
 import com.mck.backend.domain.UserInfo;
 import com.mck.backend.service.UserInfoService;
 import com.mck.backend.service.jwt.JwtService;

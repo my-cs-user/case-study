@@ -42,7 +42,7 @@ public class CourseService {
   }
 
   public void update(CourseDTO courseDTO) {
-    courseRepository.findById(courseDTO.getId()).orElseThrow(NotFoundException::new);
+    courseRepository.findById(courseDTO.id()).orElseThrow(NotFoundException::new);
     courseRepository.save(mapToEntity(courseDTO));
   }
 

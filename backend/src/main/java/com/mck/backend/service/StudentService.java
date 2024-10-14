@@ -48,7 +48,7 @@ public class StudentService {
   }
 
   public void update(StudentDTO studentDTO) {
-    studentRepository.findById(studentDTO.getId()).orElseThrow(NotFoundException::new);
+    studentRepository.findById(studentDTO.id()).orElseThrow(NotFoundException::new);
     studentRepository.save(mapToEntity(studentDTO));
   }
 

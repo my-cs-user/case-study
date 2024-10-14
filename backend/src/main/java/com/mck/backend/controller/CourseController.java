@@ -1,7 +1,7 @@
-package com.mck.backend.app.controller;
+package com.mck.backend.controller;
 
-import com.mck.backend.app.request.CreateCourseRequest;
-import com.mck.backend.app.request.UpdateCourseRequest;
+import com.mck.backend.request.CreateCourseRequest;
+import com.mck.backend.request.UpdateCourseRequest;
 import com.mck.backend.mapper.CourseMapper;
 import com.mck.backend.model.CourseDTO;
 import com.mck.backend.service.CourseService;

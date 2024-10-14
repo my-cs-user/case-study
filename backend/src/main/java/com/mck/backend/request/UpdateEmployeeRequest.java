@@ -1,4 +1,4 @@
-package com.mck.backend.app.request;
+package com.mck.backend.request;
 
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;

@@ -1,7 +1,7 @@
 package com.mck.backend.mapper;
 
-import com.mck.backend.app.request.CreateCourseRequest;
-import com.mck.backend.app.request.UpdateCourseRequest;
+import com.mck.backend.request.CreateCourseRequest;
+import com.mck.backend.request.UpdateCourseRequest;
 import com.mck.backend.domain.Course;
 import com.mck.backend.model.CourseDTO;
 import org.mapstruct.Mapper;
