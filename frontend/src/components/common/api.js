@@ -9,7 +9,6 @@ const api = axios.create({
     },
 });
 
-// Interceptor to add token to every request
 api.interceptors.request.use(
     (config) => {
         const token = sessionStorage.getItem('authToken');
@@ -23,15 +22,13 @@ api.interceptors.request.use(
     }
 );
 
-// Interceptor to handle errors globally
 api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            // Clear session and redirect to login
             sessionStorage.removeItem('authToken');
             alert('You Must Login');
-            window.location.href = '/auth'; // Redirect to login
+            window.location.href = '/auth';
         }
         return Promise.reject(error);
     }

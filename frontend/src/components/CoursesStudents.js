@@ -13,7 +13,7 @@ function CoursesStudents() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [pageSize, setPageSize] = useState(20); // Default page size
+  const [pageSize, setPageSize] = useState(20);
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -98,7 +98,7 @@ function CoursesStudents() {
     setPageSize(size);
     setCurrentPage(0); // Reset to the first page
     if (selectedCourse) {
-      fetchStudents(selectedCourse.id, 0, size); // Fetch with new size
+      fetchStudents(selectedCourse.id, 0, size);
     }
   };
 
@@ -106,7 +106,7 @@ function CoursesStudents() {
     const { value } = event.target;
     setSearchText(value);
     if (selectedCourse) {
-      fetchStudents(selectedCourse.id, 0, pageSize, value); // Reset to the first page on search
+      fetchStudents(selectedCourse.id, 0, pageSize, value);
     }
   };
 
@@ -243,7 +243,7 @@ function CoursesStudents() {
                 onHide={() => setShowModal(false)}
                 entity={selectedStudent}
                 fields={studentFields}
-                masterEntities={courses} // Course information
+                masterEntities={courses}
                 onUpdate={handleUpdateStudent}
                 onDelete={handleDeleteStudent}
             />
@@ -256,7 +256,7 @@ function CoursesStudents() {
                 onHide={() => setShowCreateModal(false)}
                 entity={{}}
                 fields={studentFields}
-                masterEntities={courses} // Course information
+                masterEntities={courses}
                 onCreate={handleCreateStudent}
             />
         )}

@@ -1,4 +1,4 @@
-package com.mck.backend.util;
+package com.mck.backend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

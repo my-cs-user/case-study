@@ -1,6 +1,7 @@
 package com.mck.backend.service;
 
 import com.mck.backend.domain.UserInfo;
+import com.mck.backend.exception.AlreadyExistsException;
 import com.mck.backend.model.UserInfoDetails;
 import com.mck.backend.repository.UserInfoRepository;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class UserInfoService implements UserDetailsService {
   public String addUser(UserInfo userInfo) {
     Optional<UserInfo> userDetail = repository.findByUsername(userInfo.getUsername());
     if (userDetail.isPresent()) {
-      throw new IllegalArgumentException("Already exists");
+      throw new AlreadyExistsException("User already exists");
     }
     userInfo.setPassword(encoder.encode(userInfo.getPassword()));
     repository.save(userInfo);

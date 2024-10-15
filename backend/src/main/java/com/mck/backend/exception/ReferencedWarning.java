@@ -1,4 +1,4 @@
-package com.mck.backend.util;
+package com.mck.backend.exception;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;

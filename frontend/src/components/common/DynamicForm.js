@@ -7,15 +7,15 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange, setEr
 
   useEffect(() => {
     if (entity) {
-      setFormData(entity); // entity değiştiğinde form verisini güncelle
+      setFormData(entity);
     }
   }, [entity]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updatedData = { ...formData, [name]: value };
-    setFormData(updatedData); // formData'yı güncelle
-    onChange(updatedData); // dışarıya güncellenmiş veriyi ilet
+    setFormData(updatedData);
+    onChange(updatedData);
 
     validateField(name, value);
   };
@@ -32,12 +32,10 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange, setEr
     validateField(fieldName, selectedValues);
   };
 
-  // Alan validasyonu
   const validateField = (name, value) => {
     const field = fields.find(f => f.name === name);
     let error = '';
 
-    // Boş array kontrolü
     if (field.required && (value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0))) {
       error = `${field.label} is required`;
     } else if (field.type === 'email' && value && !/\S+@\S+\.\S+/.test(value)) {
@@ -59,7 +57,7 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange, setEr
               <label>{field.label}</label>
               {field.type === 'select' ? (
                   <Select
-                      isMulti={field.multiple} // Çoklu seçim kontrolü
+                      isMulti={field.multiple}
                       name={field.name}
                       options={masterEntities.map(entity => ({
                         value: entity.id,
@@ -74,7 +72,7 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange, setEr
                           formData[field.name] ? {
                             value: formData[field.name],
                             label: masterEntities.find(entity => entity.id === formData[field.name])?.name || 'N/A'
-                          } : null // Değer yoksa null
+                          } : null
                       }
                   />
               ) : (
@@ -82,8 +80,8 @@ const DynamicForm = ({ fields, entity = {}, masterEntities = [], onChange, setEr
                       type={field.type || 'text'}
                       name={field.name}
                       className="form-control"
-                      value={formData[field.name] || ''} // formData'dan değer al
-                      onChange={handleChange} // değişiklikleri yakala
+                      value={formData[field.name] || ''}
+                      onChange={handleChange}
                   />
               )}
               {formErrors[field.name] && <small className="text-danger">{formErrors[field.name]}</small>}

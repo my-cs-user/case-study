@@ -14,8 +14,8 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%; /* Full width for responsiveness */
-    max-width: 800px; /* Maximum width for larger screens */
+    width: 100%;
+    max-width: 800px;
 }
 
 h2 {
@@ -25,11 +25,11 @@ h2 {
 
 .form-wrapper {
     display: flex;
-    justify-content: space-between; /* Equal spacing between sections */
+    justify-content: space-between;
 }
 
 .login-section, .register-section {
-    width: 48%; /* Each section takes almost half the width */
+    width: 48%;
 }
 
 input {
@@ -74,10 +74,10 @@ button:hover {
 
 @media (max-width: 600px) {
     .form-wrapper {
-        flex-direction: column; /* Stacked layout for smaller screens */
+        flex-direction: column;
     }
 
     .login-section, .register-section {
-        width: 100%; /* Full width for mobile */
+        width: 100%;
     }
 }

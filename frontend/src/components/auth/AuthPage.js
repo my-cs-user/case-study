@@ -11,7 +11,6 @@ const AuthPage = () => {
     const [messageType, setMessageType] = useState('');
 
     useEffect(() => {
-        // On mount, check if the user is logged in by calling the hello API
         const token = sessionStorage.getItem('authToken');
         if (token) {
             fetchHello();

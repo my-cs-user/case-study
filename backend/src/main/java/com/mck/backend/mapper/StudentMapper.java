@@ -6,7 +6,7 @@ import com.mck.backend.domain.Course;
 import com.mck.backend.domain.Student;
 import com.mck.backend.model.StudentDTO;
 import com.mck.backend.repository.CourseRepository;
-import com.mck.backend.util.NotFoundException;
+import com.mck.backend.exception.NotFoundException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

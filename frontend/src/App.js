@@ -4,7 +4,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import DepartmentsEmployees from './components/DepartmentsEmployees';
 import CoursesStudents from './components/CoursesStudents';
-import AuthPage from './components/auth/AuthPage'; // AuthPage'i içe aktar
+import AuthPage from './components/auth/AuthPage';
 import './App.css';
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
                     <Sidebar />
                     <div className="content">
                         <Routes>
-                            <Route path="/auth" element={<AuthPage />} /> {/* AuthPage için yeni route */}
+                            <Route path="/auth" element={<AuthPage />} />
                             <Route path="/departments" element={<DepartmentsEmployees />} />
                             <Route path="/courses" element={<CoursesStudents />} />
                         </Routes>

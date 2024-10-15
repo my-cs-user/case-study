@@ -13,10 +13,10 @@ function DepartmentsEmployees() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [pageSize, setPageSize] = useState(20); // Default page size
+  const [pageSize, setPageSize] = useState(20);
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState('');
-  const [searchText, setSearchText] = useState(''); // Search text state
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     fetchDepartments();
@@ -241,7 +241,7 @@ function DepartmentsEmployees() {
                 onHide={() => setShowModal(false)}
                 entity={selectedEmployee}
                 fields={employeeFields}
-                masterEntities={departments} // Department information
+                masterEntities={departments}
                 onUpdate={handleUpdateEmployee}
                 onDelete={handleDeleteEmployee}
             />
@@ -254,7 +254,7 @@ function DepartmentsEmployees() {
                 onHide={() => setShowCreateModal(false)}
                 entity={{}}
                 fields={employeeFields}
-                masterEntities={departments} // Department information
+                masterEntities={departments}
                 onCreate={handleCreateEmployee}
             />
         )}
