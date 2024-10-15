@@ -1,12 +1,12 @@
 package com.mck.backend.mapper;
 
-import com.mck.backend.request.CreateEmployeeRequest;
-import com.mck.backend.request.UpdateEmployeeRequest;
 import com.mck.backend.domain.Department;
 import com.mck.backend.domain.Employee;
+import com.mck.backend.exception.NotFoundException;
 import com.mck.backend.model.EmployeeDTO;
 import com.mck.backend.repository.DepartmentRepository;
-import com.mck.backend.exception.NotFoundException;
+import com.mck.backend.request.CreateEmployeeRequest;
+import com.mck.backend.request.UpdateEmployeeRequest;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

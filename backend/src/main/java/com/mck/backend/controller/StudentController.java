@@ -1,9 +1,9 @@
 package com.mck.backend.controller;
 
-import com.mck.backend.request.CreateStudentRequest;
-import com.mck.backend.request.UpdateStudentRequest;
 import com.mck.backend.mapper.StudentMapper;
 import com.mck.backend.model.StudentDTO;
+import com.mck.backend.request.CreateStudentRequest;
+import com.mck.backend.request.UpdateStudentRequest;
 import com.mck.backend.service.StudentService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;

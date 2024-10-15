@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {Button, Modal} from 'react-bootstrap';
 import DynamicForm from './DynamicForm';
 
-const EntityModal = ({ show, onHide, entity = {}, fields, masterEntities, onCreate, onUpdate, onDelete }) => {
+const EntityModal = ({show, onHide, entity = {}, fields, masterEntities, onCreate, onUpdate, onDelete}) => {
     const [formData, setFormData] = useState(entity || {});
     const [formErrors, setFormErrors] = useState({});
 

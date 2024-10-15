@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import DepartmentsEmployees from './components/DepartmentsEmployees';
@@ -11,14 +11,14 @@ function App() {
     return (
         <Router>
             <div className="app">
-                <Header />
+                <Header/>
                 <div className="app-layout">
-                    <Sidebar />
+                    <Sidebar/>
                     <div className="content">
                         <Routes>
-                            <Route path="/auth" element={<AuthPage />} />
-                            <Route path="/departments" element={<DepartmentsEmployees />} />
-                            <Route path="/courses" element={<CoursesStudents />} />
+                            <Route path="/auth" element={<AuthPage/>}/>
+                            <Route path="/departments" element={<DepartmentsEmployees/>}/>
+                            <Route path="/courses" element={<CoursesStudents/>}/>
                         </Routes>
                     </div>
                 </div>

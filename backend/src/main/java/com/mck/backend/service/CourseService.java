@@ -1,11 +1,11 @@
 package com.mck.backend.service;
 
 import com.mck.backend.domain.Course;
+import com.mck.backend.exception.NotFoundException;
 import com.mck.backend.mapper.CourseMapper;
 import com.mck.backend.model.CourseDTO;
 import com.mck.backend.repository.CourseRepository;
 import com.mck.backend.repository.StudentRepository;
-import com.mck.backend.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.data.domain.Sort;

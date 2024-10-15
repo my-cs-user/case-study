@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import api from '../common/api'; // Import the axios instance with interceptors
 import './AuthPage.css';
 import {Alert} from "react-bootstrap"; // Assuming you have a CSS file for styling
 
 const AuthPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loginForm, setLoginForm] = useState({ username: '', password: '' });
-    const [registerForm, setRegisterForm] = useState({ username: '', password: '' });
+    const [loginForm, setLoginForm] = useState({username: '', password: ''});
+    const [registerForm, setRegisterForm] = useState({username: '', password: ''});
     const [message, setMessage] = useState(null);
     const [messageType, setMessageType] = useState('');
 
@@ -18,11 +18,11 @@ const AuthPage = () => {
     }, []);
 
     const handleInputChange = (e, formType) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         if (formType === 'login') {
-            setLoginForm({ ...loginForm, [name]: value });
+            setLoginForm({...loginForm, [name]: value});
         } else {
-            setRegisterForm({ ...registerForm, [name]: value });
+            setRegisterForm({...registerForm, [name]: value});
         }
     };
 

@@ -1,12 +1,12 @@
 package com.mck.backend.controller;
 
-import com.mck.backend.request.CreateDepartmentRequest;
-import com.mck.backend.request.UpdateDepartmentRequest;
-import com.mck.backend.mapper.DepartmentMapper;
-import com.mck.backend.model.DepartmentDTO;
-import com.mck.backend.service.DepartmentService;
 import com.mck.backend.exception.ReferencedException;
 import com.mck.backend.exception.ReferencedWarning;
+import com.mck.backend.mapper.DepartmentMapper;
+import com.mck.backend.model.DepartmentDTO;
+import com.mck.backend.request.CreateDepartmentRequest;
+import com.mck.backend.request.UpdateDepartmentRequest;
+import com.mck.backend.service.DepartmentService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
