@@ -16,7 +16,7 @@ This project is a web application for managing data related to courses and emplo
 ## Installation
 1. Clone this repository:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/my-cs-user/case-study.git
    ```
 
 2. Install the necessary dependencies for the backend:
