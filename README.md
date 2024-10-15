@@ -1,4 +1,4 @@
-# Project Name: Courses and Employees Management System
+# Courses and Employees Management System
 
 ## About the Project
 This project is a web application for managing data related to courses and employees. Users can view courses and employees, create new records, update existing records, or delete them. The project uses React.js for frontend development and interacts with a backend API built with Spring Boot.
