@@ -47,16 +47,12 @@ public class SecurityConfig {
       AuthenticationProvider authenticationProvider)
       throws Exception {
     return http
-        .authorizeHttpRequests((authz) -> authz.requestMatchers(HttpMethod.OPTIONS, "/**")
-            .permitAll()
-            .requestMatchers("/auth/*")
-            .permitAll()
-            .requestMatchers("/auth/hello")
-            .authenticated()
-            .requestMatchers("/api/**")
-            .authenticated()
-            .requestMatchers("/v3/**", "/swagger-ui/**")
-            .permitAll())
+        .authorizeHttpRequests(
+            (authz) -> authz.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/auth/*").permitAll()
+                .requestMatchers("/auth/hello").authenticated()
+                .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/v3/**", "/swagger-ui/**", "/h2-console/**").permitAll())
         .csrf(AbstractHttpConfigurer::disable)
         .cors(withDefaults())
         .httpBasic(withDefaults())
@@ -64,6 +60,7 @@ public class SecurityConfig {
             (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider)
         .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+        // for H2 -> .headers().frameOptions().disable().disable()
         .build();
   }
 
