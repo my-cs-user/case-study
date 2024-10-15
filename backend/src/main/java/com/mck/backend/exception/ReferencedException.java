@@ -10,8 +10,7 @@ public class ReferencedException extends RuntimeException {
     super();
   }
 
-  public ReferencedException(ReferencedWarning referencedWarning) {
-    super(referencedWarning.toMessage());
+  public ReferencedException(String message) {
+    super(message);
   }
-
 }

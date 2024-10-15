@@ -1,9 +1,8 @@
 package com.mck.backend.service;
 
 import com.mck.backend.domain.Department;
-import com.mck.backend.domain.Employee;
 import com.mck.backend.exception.NotFoundException;
-import com.mck.backend.exception.ReferencedWarning;
+import com.mck.backend.exception.ReferencedException;
 import com.mck.backend.mapper.DepartmentMapper;
 import com.mck.backend.model.DepartmentDTO;
 import com.mck.backend.repository.DepartmentRepository;
@@ -49,7 +48,12 @@ public class DepartmentService {
   }
 
   public void delete(Long id) {
-    departmentRepository.deleteById(id);
+    Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
+    employeeRepository.findFirstByDepartment(department)
+        .ifPresent(employee -> {
+          throw new ReferencedException("There are employees on this department");
+        });
+    departmentRepository.delete(department);
   }
 
   private DepartmentDTO mapToDTO(Department department) {
@@ -58,18 +62,6 @@ public class DepartmentService {
 
   private Department mapToEntity(DepartmentDTO departmentDTO) {
     return departmentMapper.toEntity(departmentDTO);
-  }
-
-  public ReferencedWarning getReferencedWarning(Long id) {
-    ReferencedWarning referencedWarning = new ReferencedWarning();
-    Department department = departmentRepository.findById(id).orElseThrow(NotFoundException::new);
-    Employee departmentEmployee = employeeRepository.findFirstByDepartment(department);
-    if (departmentEmployee != null) {
-      referencedWarning.setKey("department.employee.department.referenced");
-      referencedWarning.addParam(departmentEmployee.getId());
-      return referencedWarning;
-    }
-    return null;
   }
 
 }

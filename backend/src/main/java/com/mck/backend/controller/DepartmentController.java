@@ -1,7 +1,5 @@
 package com.mck.backend.controller;
 
-import com.mck.backend.exception.ReferencedException;
-import com.mck.backend.exception.ReferencedWarning;
 import com.mck.backend.mapper.DepartmentMapper;
 import com.mck.backend.model.DepartmentDTO;
 import com.mck.backend.request.CreateDepartmentRequest;
@@ -64,10 +62,6 @@ public class DepartmentController {
   @DeleteMapping("/{id}")
   @ApiResponse(responseCode = "204")
   public ResponseEntity<Void> deleteDepartment(@PathVariable(name = "id") Long id) {
-    ReferencedWarning referencedWarning = departmentService.getReferencedWarning(id);
-    if (referencedWarning != null) {
-      throw new ReferencedException(referencedWarning);
-    }
     departmentService.delete(id);
     return ResponseEntity.noContent().build();
   }
