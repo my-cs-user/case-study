@@ -1,5 +1,3 @@
-INSERT INTO user_info (id, date_created, last_updated, username, password) VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin', 'admin');
-
 -- Insert into Department
 INSERT INTO department (id, date_created, last_updated, name) VALUES (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'IT Department');
 INSERT INTO department (id, date_created, last_updated, name) VALUES (2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'HR Department');
