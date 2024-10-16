@@ -49,4 +49,4 @@ This project is a web application for managing data related to courses and emplo
 
 ## Notes
 - Departments and courses are treated as reference entities. Their addition, deletion, and updates are managed through the API, allowing for dynamic changes to these entities directly from the frontend if there will be a page for that later.
-
+- The backend project starts with default data automatically loaded. This is achieved using a `data.sql` file located under the `resources` directory, ensuring that the application is pre-populated with initial data upon startup.
