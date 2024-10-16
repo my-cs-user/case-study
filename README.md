@@ -46,3 +46,7 @@ This project is a web application for managing data related to courses and emplo
 - Visit `http://localhost:3000` in your browser to view the application.
 - Register with a new user and login.
 - You can view students and employees by selecting between Courses and Departments.
+
+## Notes
+- Departments and courses are treated as reference entities. Their addition, deletion, and updates are managed through the API, allowing for dynamic changes to these entities directly from the frontend if there will be a page for that later.
+
